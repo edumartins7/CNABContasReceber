@@ -15,6 +15,7 @@ namespace CnabContasReceber.Models
         public string NomePagador { get; set; }
         public string EnderecoCompleto { get; set; }
         public string Cep { get; set; }
+        public string NossoNumero { get; set; }
 
         public bool PessoaJuridica()
         {

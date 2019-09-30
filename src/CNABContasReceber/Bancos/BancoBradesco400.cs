@@ -61,12 +61,13 @@ namespace CnabContasReceber.Bancos
             b.Append(Opcoes.Carteira.PadLeft(3, '0'));
             b.AppendNumero(5, Opcoes.NumeroAgencia);
             b.AppendNumero(7, Opcoes.NumeroContaCorrente);//30-36
-            b.AppendNumero(1, Opcoes.DigitoContaCorrente);//37-37
+            b.Append(Opcoes.DigitoContaCorrente);//37-37
             b.AppendNumero(25, titulo.NumeroTitulo); //38-62
             b.Append("000"); //63-65
             b.Append(Opcoes.CobraMulta ? "2" : "0"); //66-66
             b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString()); //67-70
-            b.AppendNumero(12, CalculaNossoNumero(Opcoes.NumeroAgencia, Opcoes.NumeroContaCorrente, Opcoes.Carteira, titulo.NumeroTitulo));
+            b.AppendNumero(11, titulo.NossoNumero);
+            b.Append(CalcularDVNossoNumero(Opcoes.Carteira, titulo.NossoNumero.PadLeft(11, '0')));
             b.Append("0000000000"); //82-92
             b.Append(Opcoes.BancoEnviaBoleto ? "1" : "2"); //93-93 1=banco emite boleto e processa. 2=empresa emite boleto e banco processa
             b.Append("N"); //94-94
@@ -105,33 +106,40 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 393));
             b.AppendNumero(6, _index++);
         }
-
-        public static string CalculaNossoNumero(string agencia, string conta, string carteira, string numeroTitulo)
+        
+        public string CalcularDVNossoNumero(string carteira, string nossoNumero)
         {
-            string b = "";
-            long digito;
-            long total = 0;
-            long parcial = 0;
+            carteira = carteira.PadLeft(2, '0');
 
-            var nossoNumero = numeroTitulo.PadLeft(8, '0');
-            b = agencia + conta + carteira + nossoNumero;
+            if (nossoNumero.Length != 11 || carteira.Length > 2)
+                throw new IndexOutOfRangeException();
 
-            for (var i = 1; i <= b.Length; i++)
+            string texto = carteira + nossoNumero;
+
+            string digito;
+            int pesoMaximo = 7, soma = 0, peso = 2;
+            for (var i = texto.Length - 1; i >= 0; i--)
             {
-                var c = int.Parse(b[i - 1].ToString());
-
-                if (i / (double)2 == i / 2)
-                    parcial = c * 2;
+                soma = soma + (int)char.GetNumericValue(texto[i]) * peso;
+                if (peso == pesoMaximo)
+                    peso = 2;
                 else
-                    parcial = c;
-                while (parcial >= 10)
-                    parcial = int.Parse(parcial.ToString().Substring(0, 1)) + int.Parse(parcial.ToString().Substring(parcial.ToString().Length - 1));
-                total = total + parcial;
+                    peso = peso + 1;
             }
-            digito = 10 - total % 10;
-
-            return nossoNumero + digito.ToString();
+            var resto = soma % 11;
+            switch (resto)
+            {
+                case 0:
+                    digito = "0";
+                    break;
+                case 1:
+                    digito = "P";
+                    break;
+                default:
+                    digito = (11 - resto).ToString();
+                    break;
+            }
+            return digito;
         }
-
     }
 }
