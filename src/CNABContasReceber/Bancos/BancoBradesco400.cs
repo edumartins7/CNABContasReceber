@@ -106,22 +106,19 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(6, _index++);
         }
 
-
-        public string CalculaNossoNumero(string agencia, string conta, string carteira, string idTitulo)
+        public static string CalculaNossoNumero(string agencia, string conta, string carteira, string numeroTitulo)
         {
-            // função para retonar o nosso numero com o digito verificador
             string b = "";
-            long resto;
+            long digito;
             long total = 0;
             long parcial = 0;
 
-
-            var nossoNumero = string.Format("00000000", idTitulo);
-            b = agencia + conta + carteira + string.Format("00000000", idTitulo);
+            var nossoNumero = numeroTitulo.PadLeft(8, '0');
+            b = agencia + conta + carteira + nossoNumero;
 
             for (var i = 1; i <= b.Length; i++)
             {
-                var c = int.Parse(b[i].ToString());
+                var c = int.Parse(b[i - 1].ToString());
 
                 if (i / (double)2 == i / 2)
                     parcial = c * 2;
@@ -131,11 +128,9 @@ namespace CnabContasReceber.Bancos
                     parcial = int.Parse(parcial.ToString().Substring(0, 1)) + int.Parse(parcial.ToString().Substring(parcial.ToString().Length - 1));
                 total = total + parcial;
             }
-            resto = 10 - total % 10;
+            digito = 10 - total % 10;
 
-            var teste = nossoNumero + resto.ToString();
-
-            return teste;
+            return nossoNumero + digito.ToString();
         }
 
     }
