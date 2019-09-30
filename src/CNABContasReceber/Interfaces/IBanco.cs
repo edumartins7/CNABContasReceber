@@ -10,5 +10,7 @@ namespace CnabContasReceber.Interfaces
         void Header(StringBuilder b);
         void Detalhe1(StringBuilder b, TituloReceber titulo);
         void Trailer(StringBuilder b);
+
+        Opcoes Opcoes { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace CnabContasReceber.Models
         public string RazaoSocial { get; set; }
         public string NumeroAgencia { get; set; }
         public string NumeroContaCorrente { get; set; }
-
+        public char DigitoContaCorrente { get; set; }
         public bool BancoEnviaBoleto { get; set; }
         public string Carteira { get; set; }
         public bool CobraMulta { get; set; }
