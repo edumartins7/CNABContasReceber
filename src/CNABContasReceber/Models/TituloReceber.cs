@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -19,12 +18,10 @@ namespace CnabContasReceber.Models
 
         public bool PessoaJuridica()
         {
-            var semPontuacao = Regex.Replace(CpfCnpj.Normalize(NormalizationForm.FormD), "[^A-Za-z0-9| ]", string.Empty);
+            var n = CpfCnpj.Normalize(NormalizationForm.FormD);
+            var semPontuacao = Regex.Replace(n, "[^A-Za-z0-9| ]", string.Empty);
 
-            if (semPontuacao.Length >= 14)
-                return true;
-
-            return false;
+            return semPontuacao.Length >= 14;
         }
 
     }
