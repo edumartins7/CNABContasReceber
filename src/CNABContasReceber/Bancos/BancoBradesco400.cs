@@ -97,7 +97,7 @@ namespace CnabContasReceber.Bancos
 
         public void Detalhe2(StringBuilder b, TituloReceber titulo)
         {
-            b.Append(Environment.NewLine);
+            throw new NotImplementedException();
         }
 
         public void Trailer(StringBuilder b)
