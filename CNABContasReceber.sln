@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CNABContasReceber.Testes", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CNABContasReceber.Retorno.Testes", "testes\CNABContasReceber.Retorno.Testes\CNABContasReceber.Retorno.Testes.csproj", "{8A18358B-CE4D-4D31-9A5C-D753242135B2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testes", "Testes", "{DA43BBD3-2F40-46B4-BB20-4631B67D5A3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3011C86B-747C-4BE9-B2DE-840653311825} = {DA43BBD3-2F40-46B4-BB20-4631B67D5A3E}
+		{8A18358B-CE4D-4D31-9A5C-D753242135B2} = {DA43BBD3-2F40-46B4-BB20-4631B67D5A3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B601E19E-548E-4F4D-8210-0CDE6B9A3CFF}
