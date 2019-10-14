@@ -76,8 +76,8 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 2));
             b.Append("01");
             b.AppendNumero(10, ++Opcoes.ContadorTitulos);
-            b.AppendData(titulo.Vencimento);
-            b.AppendDinheiro(13, titulo.Valor);
+            b.AppendData(titulo.Vencimento); //121-126
+            b.AppendDinheiro(13, titulo.Valor); //127-139
             b.Append("00000000");
             b.Append("04N");
             b.AppendData(titulo.Emissao);

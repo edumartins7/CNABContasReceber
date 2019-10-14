@@ -53,7 +53,8 @@ namespace CnabContasReceber
             if (valor == null)
                 valor = 0m;
 
-            var s = valor.ToString();
+            var s = valor.Value.ToString("F2");
+
             var txt = Regex.Replace(s, "[.,]", string.Empty).PadLeft(tamanho, '0');
 
             sb.Append(txt);
