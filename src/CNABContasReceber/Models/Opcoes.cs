@@ -18,6 +18,15 @@ namespace CnabContasReceber.Models
         public decimal PercentualMoraDiaAtraso { get; set; }
 
         public string Msg1 { get; set; }
-        public string Msg2 { get; set; }      
+        public string Msg2 { get; set; }
+
+        public bool CobrancaCompartilhada { get; set; } = false;
+        public ETipoValorRateio ETipoValorRateio { get; set; } = ETipoValorRateio.Valor;
+    }
+
+    public enum ETipoValorRateio : short
+    {
+        Percentual = 1,
+        Valor = 2
     }
 }

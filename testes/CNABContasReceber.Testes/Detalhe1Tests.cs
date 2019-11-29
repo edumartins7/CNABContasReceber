@@ -8,38 +8,40 @@ namespace CNABContasReceber.Testes
 {
     public class Detalhe1Tests
     {
-        [Fact]
-        public void Escreveu_Valor_Correto1()
-        {
-            var linha = GerarLinhaDetalhe(Titulo1());
-            var valor = linha.Slice(127, 139);
+        private string _linha1;
+        private string _linha2;
+        private string _linha3;
+        private string _linha4;
 
-            Assert.Equal("0000000001099", valor);
+        public Detalhe1Tests()
+        {
+            _linha1 = GerarLinhaDetalhe(Titulo1());
+            _linha2 = GerarLinhaDetalhe(Titulo2());
+            _linha3 = GerarLinhaDetalhe(Titulo3());
+            _linha4 = GerarLinhaDetalhe(Titulo4());
         }
 
         [Fact]
-        public void Escreveu_Valor_Correto2()
+        public void Tem400Caracteres()
         {
-            var linha2 = GerarLinhaDetalhe(Titulo2());
-            var valor2 = linha2.Slice(127, 139);
+            Assert.Equal(400, _linha1.Length - 2); //o enter pra linha de baixo conta como 2
+            Assert.Equal(400, _linha2.Length - 2);
+            Assert.Equal(400, _linha3.Length - 2);
+            Assert.Equal(400, _linha4.Length - 2);
+        }
+
+        [Fact]
+        public void Escreveu_Valor_Correto()
+        {
+            var valor1 = _linha1.Slice(127, 139);
+            var valor2 = _linha2.Slice(127, 139);
+            var valor3 = _linha3.Slice(127, 139);
+            var valor4 = _linha4.Slice(127, 139);
+
+            Assert.Equal("0000000001099", valor1);
             Assert.Equal("0000000001000", valor2);
-        }
-
-        [Fact]
-        public void Escreveu_Valor_Correto3()
-        {
-            var linha3 = GerarLinhaDetalhe(Titulo3());
-            var valor3 = linha3.Slice(127, 139);
             Assert.Equal("0193820139099", valor3);
-        }
-
-
-        [Fact]
-        public void Escreveu_Valor_Correto4()
-         {
-            var linha = GerarLinhaDetalhe(Titulo4());
-            var valor = linha.Slice(127, 139);
-            Assert.Equal("0000000000099", valor);
+            Assert.Equal("0000000000099", valor4);
         }
 
         [Fact]
@@ -50,7 +52,6 @@ namespace CNABContasReceber.Testes
 
             Assert.Equal("051119", valor);
         }
-
 
         public static string GerarLinhaDetalhe(TituloReceber titulo)
         {

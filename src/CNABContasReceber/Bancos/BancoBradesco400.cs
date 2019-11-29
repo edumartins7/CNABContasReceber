@@ -1,7 +1,9 @@
 ﻿using CnabContasReceber.Interfaces;
 using CnabContasReceber.Models;
+using CNABContasReceber.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CnabContasReceber.Bancos
@@ -25,12 +27,23 @@ namespace CnabContasReceber.Bancos
 
             Header(b);
 
-            foreach(var t in titulos)
+            foreach(TituloReceber t in titulos)
             {
                 Detalhe1(b, t);
 
-                if (Opcoes.BancoEnviaBoleto)
-                    Detalhe2(b, t);
+                //if (Opcoes.BancoEnviaBoleto)
+                //    Detalhe2(b, t);
+
+                if (Opcoes.CobrancaCompartilhada)
+                {
+                    if (t.RateioCredito.Count() < 1)
+                        throw new ArgumentOutOfRangeException("RateioCredito");
+
+                    foreach(var lote in t.RateioCredito.Batch(3))
+                    {
+                        Detalhe3(b, t.NossoNumero, lote);
+                    }
+                }
             }
 
             Trailer(b);
@@ -66,7 +79,7 @@ namespace CnabContasReceber.Bancos
             b.Append("000"); //63-65
             b.Append(Opcoes.CobraMulta ? "2" : "0"); //66-66
             b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString()); //67-70
-            b.AppendNumero(11, titulo.NossoNumero);
+            b.AppendNumero(11, titulo.NossoNumero); //71-82
             b.Append(CalcularDVNossoNumero(Opcoes.Carteira, titulo.NossoNumero.PadLeft(11, '0')));
             b.Append("0000000000"); //82-92
             b.Append(Opcoes.BancoEnviaBoleto ? "1" : "2"); //93-93 1=banco emite boleto e processa. 2=empresa emite boleto e banco processa
@@ -95,10 +108,36 @@ namespace CnabContasReceber.Bancos
             b.Append(Environment.NewLine);
         }
 
-        public void Detalhe2(StringBuilder b, TituloReceber titulo)
+        //public void Detalhe2(StringBuilder b, TituloReceber titulo)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public void Detalhe3(StringBuilder b, string nossoNumero, IEnumerable<RateioCredito> rateios)
         {
-            throw new NotImplementedException();
+            var primeiroRateio = rateios.ElementAtOrDefault(0);
+            var segundoRateio = rateios.ElementAtOrDefault(1);
+            var terceiroRateio = rateios.ElementAtOrDefault(2);
+
+            b.Append("3"); //1-1
+            b.Append(Opcoes.Carteira.PadLeft(3, '0')); //02-04
+            b.AppendNumero(5, Opcoes.NumeroAgencia); //05-09
+            b.AppendNumero(7, Opcoes.NumeroContaCorrente); //16-16
+            b.Append(Opcoes.DigitoContaCorrente); //17-17
+            b.AppendNumero(11, nossoNumero); //18-28
+            b.Append(CalcularDVNossoNumero(Opcoes.Carteira, nossoNumero.PadLeft(11, '0'))); //29-29
+            b.Append("2"); //30-30            1- valor cobrado 2-Valor do registro 3-Rateio pelo menor valor (registrado ou pago)
+            b.Append("2"); //31-31            1- percentual 2-valor
+            b.Append(new string(' ', 12)); //32-43
+
+            EscreverRateioCredito(b, primeiroRateio);
+            EscreverRateioCredito(b, segundoRateio);
+            EscreverRateioCredito(b, terceiroRateio);
+
+            b.AppendNumero(6, _index++); //395-400
+            b.Append(Environment.NewLine); 
         }
+
 
         public void Trailer(StringBuilder b)
         {
@@ -140,6 +179,44 @@ namespace CnabContasReceber.Bancos
                     break;
             }
             return digito;
+        }
+
+        private void EscreverRateioCredito(StringBuilder b, RateioCredito rat)
+        {
+            if (rat != null)
+            {
+                b.Append("237");
+                b.AppendNumero(5, rat.AgenciaSemDigito);
+                b.Append(rat.DigitoAgencia);
+                b.AppendNumero(12, rat.ContaCorrente);
+                b.Append(rat.DigitoContaCorrente);
+                b.AppendDinheiro(15, rat.ValorRateio);
+                b.AppendTexto(40, Opcoes.RazaoSocial);
+                b.Append(new string(' ', 31));
+                b.Append(new string(' ', 6));
+                b.Append("001");
+            }
+            else
+            {
+                b.Append("237");
+                b.Append(new string('0', 34));
+                b.Append(new string(' ', 40));
+                b.Append(new string(' ', 31));
+                b.Append(new string(' ', 6));
+                b.Append("000");
+            }
+        }
+
+    }
+
+    public static class MyExtensions
+    {
+        public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> items,
+                                                           int maxItems)
+        {
+            return items.Select((item, inx) => new { item, inx })
+                        .GroupBy(x => x.inx / maxItems)
+                        .Select(g => g.Select(x => x.item));
         }
     }
 }

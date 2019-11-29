@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CNABContasReceber.Models;
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -16,6 +18,10 @@ namespace CnabContasReceber.Models
         public string Cep { get; set; }
         public string NossoNumero { get; set; }
 
+
+        //dependendo do banco pode vir como "cobrança compartilhada" na documentação
+        public IEnumerable<RateioCredito> RateioCredito { get; set; } = new List<RateioCredito>();
+
         public bool PessoaJuridica()
         {
             var n = CpfCnpj.Normalize(NormalizationForm.FormD);
@@ -23,6 +29,5 @@ namespace CnabContasReceber.Models
 
             return semPontuacao.Length >= 14;
         }
-
     }
 }
