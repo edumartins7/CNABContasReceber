@@ -84,10 +84,11 @@ namespace CnabContasReceber.Bancos
             b.Append("0000000000"); //82-92
             b.Append(Opcoes.BancoEnviaBoleto ? "1" : "2"); //93-93 1=banco emite boleto e processa. 2=empresa emite boleto e banco processa
             b.Append("N"); //94-94
-            b.Append(new string(' ', 11)); //95-105
-            b.Append("0");
-            b.Append(new string(' ', 2));
-            b.Append("01");
+            b.Append(new string(' ', 10)); //95-104
+            b.Append(Opcoes.CobrancaCompartilhada ? "R" : " "); //105 indicador rateio crédito
+            b.Append("0"); //106
+            b.Append(new string(' ', 2));//108
+            b.Append("01");//110
             b.AppendNumero(10, ++Opcoes.ContadorTitulos);
             b.AppendData(titulo.Vencimento); //121-126
             b.AppendDinheiro(13, titulo.Valor); //127-139
@@ -108,10 +109,6 @@ namespace CnabContasReceber.Bancos
             b.Append(Environment.NewLine);
         }
 
-        //public void Detalhe2(StringBuilder b, TituloReceber titulo)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void Detalhe3(StringBuilder b, string nossoNumero, IEnumerable<RateioCredito> rateios)
         {
