@@ -3,6 +3,7 @@ using CnabContasReceber.Models;
 using CNABContasReceber.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -78,7 +79,7 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(25, titulo.NumeroTitulo); //38-62
             b.Append("000"); //63-65
             b.Append(Opcoes.CobraMulta ? "2" : "0"); //66-66
-            b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString()); //67-70
+            b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //67-70
             b.AppendNumero(11, titulo.NossoNumero); //71-82
             b.Append(CalcularDVNossoNumero(Opcoes.Carteira, titulo.NossoNumero.PadLeft(11, '0')));
             b.Append("0000000000"); //82-92
