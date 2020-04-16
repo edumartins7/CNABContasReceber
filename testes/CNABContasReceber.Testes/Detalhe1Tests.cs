@@ -53,6 +53,15 @@ namespace CNABContasReceber.Testes
             Assert.Equal("051119", valor);
         }
 
+        [Fact]
+        public void Escreveu_Multa_Correta()
+        {
+            var linha = GerarLinhaDetalhe(Titulo1());
+            var valor = linha.Slice(67, 70);
+
+            Assert.Equal("1000", valor);
+        }
+
         public static string GerarLinhaDetalhe(TituloReceber titulo)
         {
             var cnab = new BancoBradesco400(Opcoes());
@@ -71,14 +80,14 @@ namespace CNABContasReceber.Testes
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
                 Carteira = "57",
-                CobraMulta = false,
+                CobraMulta = true,
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "0989",
                 NumeroContaCorrente = "7177",
                 DigitoContaCorrente = '3',
                 PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 2m,
+                PercentualMulta = 10m,
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
