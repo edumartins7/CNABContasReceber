@@ -32,19 +32,13 @@ namespace CnabContasReceber.Bancos
             {
                 Detalhe1(b, t);
 
-                //if (Opcoes.BancoEnviaBoleto)
-                //    Detalhe2(b, t);
+                if (Opcoes.BancoEnviaBoleto)
+                    throw new NotImplementedException("BancoEnviaBoleto");
 
-                //if (Opcoes.CobrancaCompartilhada)
-                //{
-                //    if (t.RateioCredito.Count() < 1)
-                //        throw new ArgumentOutOfRangeException("RateioCredito");
-
-                //    foreach(var lote in t.RateioCredito.Batch(3))
-                //    {
-                //        Detalhe3(b, t.NossoNumero, lote);
-                //    }
-                //}
+                if (Opcoes.CobrancaCompartilhada)
+                {
+                    throw new NotImplementedException("CobrancaCompartilhada");
+                }
             }
 
             Trailer(b);

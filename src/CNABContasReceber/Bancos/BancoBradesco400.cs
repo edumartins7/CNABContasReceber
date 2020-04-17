@@ -32,8 +32,8 @@ namespace CnabContasReceber.Bancos
             {
                 Detalhe1(b, t);
 
-                //if (Opcoes.BancoEnviaBoleto)
-                //    Detalhe2(b, t);
+                if (Opcoes.BancoEnviaBoleto)
+                    throw new NotImplementedException("BancoEnviaBoleto");
 
                 if (Opcoes.CobrancaCompartilhada)
                 {
