@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace CnabContasReceber
+namespace CnabContasReceber.Util
 {
     public static class StringBuilderExtensions
     {

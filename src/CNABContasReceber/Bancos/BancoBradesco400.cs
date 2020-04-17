@@ -1,11 +1,11 @@
 ﻿using CnabContasReceber.Interfaces;
 using CnabContasReceber.Models;
-using CNABContasReceber.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using CnabContasReceber.Util;
 
 namespace CnabContasReceber.Bancos
 {

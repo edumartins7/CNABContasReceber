@@ -1,6 +1,5 @@
 using CnabContasReceber.Bancos;
 using CnabContasReceber.Models;
-using CNABContasReceber.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

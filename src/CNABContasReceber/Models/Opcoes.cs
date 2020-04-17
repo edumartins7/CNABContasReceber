@@ -3,7 +3,8 @@
 namespace CnabContasReceber.Models
 {
     public class Opcoes
-    {   
+    {
+        public string CnpjBeneficiario { get; set; } //santander
         public string CodigoEmpresa { get; set; }
         public int NumeroSequencialRemessaCnab { get; set; }
         public int ContadorTitulos { get; set; }

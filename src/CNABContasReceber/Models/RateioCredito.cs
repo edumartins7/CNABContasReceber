@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CNABContasReceber.Models
+﻿namespace CnabContasReceber.Models
 {
     /// <summary>
     /// Em algumas documentações é referido como "Cobrança Compartilhada"
