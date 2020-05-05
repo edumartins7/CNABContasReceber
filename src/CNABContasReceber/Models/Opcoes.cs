@@ -23,6 +23,8 @@ namespace CnabContasReceber.Models
 
         public bool CobrancaCompartilhada { get; set; } = false;
         public ETipoValorRateio ETipoValorRateio { get; set; } = ETipoValorRateio.Valor;
+
+        public string CodigoBanco { get; set; } //alguns bancos tem dois codigos, como o santander (033 e 353)
     }
 
     public enum ETipoValorRateio : short

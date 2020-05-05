@@ -108,14 +108,14 @@ namespace CNABContasReceber.Testes.Santander
             return new TituloReceber()
             {
                 Cep = "05201-210",
-                CpfCnpj = "32.140.856/0001-59",
-                Emissao = new DateTime(2019, 10, 2),
-                Vencimento = new DateTime(2019, 11, 5),
+                CpfCnpj = "25840272833",
+                Emissao = new DateTime(2020, 1, 2),
+                Vencimento = new DateTime(2020, 5, 15),
                 EnderecoCompleto = "RUA ALBION 193",
-                NomePagador = "LOJAS RENNER LTDA",
+                NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 10.99m
+                Valor = 1062.33m
             };
         }
 

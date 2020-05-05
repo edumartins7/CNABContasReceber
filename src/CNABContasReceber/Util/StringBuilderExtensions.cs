@@ -28,6 +28,11 @@ namespace CnabContasReceber.Util
 
             valor = Regex.Replace(valor.Normalize(NormalizationForm.FormD), "[^0-9| ]", string.Empty).ToUpper();
 
+            valor = valor.PadLeft(tamanho, '0');
+
+            if (valor.Length > tamanho)
+                throw new Exception($"o valor {valor} excede o tamanho máximo de {tamanho} caracteres");
+
             sb.Append(valor.PadLeft(tamanho, '0'));
 
             return sb;
@@ -36,6 +41,10 @@ namespace CnabContasReceber.Util
         public static StringBuilder AppendNumero(this StringBuilder sb, int tamanho, long valor)
         {
             var s = valor.ToString("D" + tamanho);
+
+            if (s.Length > tamanho)
+                throw new Exception($"o valor {s} excede o tamanho máximo de {tamanho} caracteres");
+
             sb.Append(s);
 
             return sb;
@@ -61,5 +70,7 @@ namespace CnabContasReceber.Util
 
             return sb;
         }
+
+       
     }
 }

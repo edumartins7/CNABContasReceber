@@ -56,7 +56,7 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(15, "COBRANCA"); //12-26
             b.AppendNumero(20, Opcoes.CodigoEmpresa); //27-46 
             b.AppendTexto(30, Opcoes.RazaoSocial); //47-76
-            b.Append("033"); //77-79
+            b.Append(Opcoes.CodigoBanco); //77-79
             b.AppendTexto(15, "SANTANDER"); //80-94
             b.AppendData(DateTime.Now); //95-100
             b.Append(new string('0', 16)); //101-116
@@ -95,7 +95,7 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(10, ++Opcoes.ContadorTitulos); //111-120
             b.AppendData(titulo.Vencimento); //121-126
             b.AppendDinheiro(13, titulo.Valor); //127-139
-            b.Append("033");
+            b.AppendTexto(3, Opcoes.CodigoBanco);
             b.Append("00000"); //143-147
             b.Append("01"); //148-149
             b.Append("N"); //150-150
