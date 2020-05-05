@@ -135,6 +135,11 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 374));
             b.AppendNumero(6, _index++);
         }
+
+        private static void Validar(Opcoes opcoes)
+        {
+            if ()
+        }
         
     }
 }
