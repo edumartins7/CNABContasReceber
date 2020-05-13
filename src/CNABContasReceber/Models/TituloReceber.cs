@@ -17,6 +17,11 @@ namespace CnabContasReceber.Models
         public string Cep { get; set; }
         public string NossoNumero { get; set; }
 
+        public string Bairro { get; set; }
+        public string Cidade  { get; set; }
+        public string UF { get; set; }
+
+
 
         //dependendo do banco pode vir como "cobrança compartilhada" na documentação
         public IEnumerable<RateioCredito> RateioCredito { get; set; } = new List<RateioCredito>();

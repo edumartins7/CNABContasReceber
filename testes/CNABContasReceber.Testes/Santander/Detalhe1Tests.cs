@@ -49,7 +49,7 @@ namespace CNABContasReceber.Testes.Santander
             var valor3 = _linha3.Slice(127, 139);
             var valor4 = _linha4.Slice(127, 139);
 
-            Assert.Equal("0000000001099", valor1);
+            Assert.Equal("0000000106233", valor1);
             Assert.Equal("0000000001000", valor2);
             Assert.Equal("0193820139099", valor3);
             Assert.Equal("0000000000099", valor4);
@@ -61,7 +61,7 @@ namespace CNABContasReceber.Testes.Santander
             var linha = GerarLinhaDetalhe(Titulo1());
             var valor = linha.Slice(121, 126);
 
-            Assert.Equal("051119", valor);
+            Assert.Equal("150520", valor);
         }
 
         [Fact]

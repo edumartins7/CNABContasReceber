@@ -14,6 +14,8 @@ namespace CnabContasReceber.Bancos
         private int _index = 1;
         private int _qtdeTitulos = 0;
         private decimal _valorTotalTitulos = 0;
+
+
         public BancoSantander400(Opcoes opcoes)
         {
             Opcoes = opcoes;
@@ -54,7 +56,13 @@ namespace CnabContasReceber.Bancos
         {
             b.Append("01REMESSA01"); //01-11
             b.AppendTexto(15, "COBRANCA"); //12-26
-            b.AppendNumero(20, Opcoes.CodigoEmpresa); //27-46 
+            
+            //inicio codigo empresa santander
+            b.AppendNumero(4, Opcoes.NumeroAgencia);
+            b.AppendNumero(8, Opcoes.CodigoEmpresa);
+            b.AppendNumero(8, Opcoes.NumeroContaCorrente); //TI do santander pediu pra remover último caracter da CC. Bruxarias do Santander.
+            //termino codigo empresa santander
+
             b.AppendTexto(30, Opcoes.RazaoSocial); //47-76
             b.Append(Opcoes.CodigoBanco); //77-79
             b.AppendTexto(15, "SANTANDER"); //80-94
@@ -77,9 +85,13 @@ namespace CnabContasReceber.Bancos
             b.Append("1"); //1-1
             b.AppendNumero(2, "02"); //02-03
             b.AppendNumero(14, Opcoes.CnpjBeneficiario); //04-17
+            
+            //inicio codigo empresa santander
             b.AppendNumero(4, Opcoes.NumeroAgencia); //18-21
-            b.AppendNumero(8, Opcoes.NumeroContaCorrente); //22-29
+            b.AppendNumero(8, Opcoes.CodigoEmpresa); //22-29
             b.AppendNumero(8, Opcoes.NumeroContaCorrente); //30-37
+            //termino codigo empresa santander
+
             b.AppendNumero(25, titulo.NumeroTitulo); //38-62
             b.AppendNumero(8, titulo.NossoNumero); //63-70
             b.AppendData(titulo.Vencimento); //71-76
@@ -87,7 +99,7 @@ namespace CnabContasReceber.Bancos
             b.Append(Opcoes.CobraMulta ? "4" : "0"); //78-78
             b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //79-82
             b.Append("00"); //83-84
-            b.Append(new string('0', 13));   //85-97 FALTAAAA
+            b.Append(new string('0', 13));   //85-97 ????
             b.Append(new string(' ', 4)); //98-101
             b.Append("000000"); //102-107
             b.AppendTexto(1, Opcoes.Carteira); //108-108
@@ -111,14 +123,14 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(14, titulo.CpfCnpj); //221-234
             b.AppendTexto(40, titulo.NomePagador); //235-274
             b.AppendTexto(40, titulo.EnderecoCompleto); //275-314
-            b.Append(new string(' ', 12)); //315-326
+            b.AppendTexto(12, titulo.Bairro); //315-326
             b.AppendNumero(8, titulo.Cep); //327-331
-            b.Append(new string(' ', 15)); //335-349
-            b.Append(new string(' ', 2));  //350-351
+            b.AppendTexto(15, titulo.Cidade); //335-349
+            b.AppendTexto(2, titulo.UF);  //350-351
             b.Append(new string(' ', 30)); //352-381
             b.Append(" "); //382-382
-            b.Append("0"); //383-383 ??????????????????
-            b.Append("00"); //384-385
+            b.Append("I"); //383-383 por e-mail pediram para chumbar I. Documentação ruim
+            b.Append("60"); //384-385 por e-mail pediram para chumbar 60. Documentação ruim
             b.Append(new string(' ', 6));  //386-391
             b.Append("00"); //392-393
             b.Append(" "); //394-394
@@ -130,16 +142,11 @@ namespace CnabContasReceber.Bancos
         public void Trailer(StringBuilder b)
         {
             b.Append("9"); //1=1
-            b.AppendNumero(6, _qtdeTitulos); //02-07
+            b.AppendNumero(6, _index); //02-07 quantidade de LINHAS no arquivo
             b.AppendDinheiro(13, _valorTotalTitulos); //08-20
-            b.Append(new string(' ', 374));
-            b.AppendNumero(6, _index++);
+            b.Append(new string('0', 374)); //por e-mail disseram que devem ser zeros e nao branco
+            b.AppendNumero(6, _index);
         }
-
-        private static void Validar(Opcoes opcoes)
-        {
-            if ()
-        }
-        
+       
     }
 }
