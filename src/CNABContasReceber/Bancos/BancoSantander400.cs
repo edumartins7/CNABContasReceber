@@ -93,7 +93,8 @@ namespace CnabContasReceber.Bancos
             //termino codigo empresa santander
 
             b.AppendNumero(25, titulo.NumeroTitulo); //38-62
-            b.AppendNumero(8, titulo.NossoNumero); //63-70
+            b.AppendNumero(7, titulo.NossoNumero); //63-69
+            b.AppendNumero(1, CalcularDvNossoNumero(titulo.NossoNumero)); //70-70
             b.AppendData(titulo.Vencimento); //71-76
             b.Append(' '); // 77-77
             b.Append(Opcoes.CobraMulta ? "4" : "0"); //78-78
@@ -147,6 +148,35 @@ namespace CnabContasReceber.Bancos
             b.Append(new string('0', 374)); //por e-mail disseram que devem ser zeros e nao branco
             b.AppendNumero(6, _index);
         }
-       
+
+        private string CalcularDvNossoNumero(string input)
+        {
+            var withZeroes = input.PadLeft(7, '0');
+
+            char[] charArr = withZeroes.ToCharArray().Reverse().ToArray();
+
+            int[] numbersArr = Array.ConvertAll<char, int>(charArr, x => (int)Char.GetNumericValue(x));
+
+            var multiplier = 2;
+            var total = 0;
+
+            foreach (var n in numbersArr)
+            {
+                if (multiplier > 9)
+                    multiplier = 2;
+
+                total += n * multiplier++;
+            }
+
+            var resto = total % 11;
+
+            if (resto == 10)
+                return "1";
+            else if (resto == 1 || resto == 0)
+                return "0";
+
+            return Math.Abs(resto - 11).ToString();
+        }
+
     }
 }
