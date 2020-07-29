@@ -52,7 +52,12 @@ namespace CnabContasReceber.Util
 
         public static StringBuilder AppendData(this StringBuilder sb, DateTime data)
         {
-            sb.Append(data.ToString("ddMMyy"));
+            return sb.AppendData(data, "ddMMyy");
+        }
+
+        public static StringBuilder AppendData(this StringBuilder sb, DateTime data, string format)
+        {
+            sb.Append(data.ToString(format));
 
             return sb;
         }

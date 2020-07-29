@@ -18,6 +18,7 @@ namespace CnabContasReceber.Models
         public decimal PercentualMulta { get; set; }
         public decimal PercentualMoraDiaAtraso { get; set; }
 
+
         public string Msg1 { get; set; }
         public string Msg2 { get; set; }
 
@@ -25,6 +26,8 @@ namespace CnabContasReceber.Models
         public ETipoValorRateio ETipoValorRateio { get; set; } = ETipoValorRateio.Valor;
 
         public string CodigoBanco { get; set; } //alguns bancos tem dois codigos, como o santander (033 e 353)
+
+        public string CodigoUaSicredi { get; set; } //o SICREDI exige um código especial que eles chamam de "código UA" ou "posto beneficiário" (?) que é usado no cálculo do DV.
     }
 
     public enum ETipoValorRateio : short
