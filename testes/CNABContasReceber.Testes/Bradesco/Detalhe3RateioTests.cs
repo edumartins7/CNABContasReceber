@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Xunit;
 
-namespace CNABContasReceber.Testes
+namespace CNABContasReceber.Testes.Bradesco
 {
     public class Detalhe3RateioTests
     {

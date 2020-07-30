@@ -4,6 +4,8 @@ namespace CnabContasReceber.Models
 {
     public class Opcoes
     {
+        private string _codigoUaSicredi;
+
         public string CnpjBeneficiario { get; set; } //santander
         public string CodigoEmpresa { get; set; }
         public int NumeroSequencialRemessaCnab { get; set; }
@@ -27,7 +29,17 @@ namespace CnabContasReceber.Models
 
         public string CodigoBanco { get; set; } //alguns bancos tem dois codigos, como o santander (033 e 353)
 
-        public string CodigoUaSicredi { get; set; } //o SICREDI exige um código especial que eles chamam de "código UA" ou "posto beneficiário" (?) que é usado no cálculo do DV.
+        public string CodigoUaSicredi { //o SICREDI exige um código especial que eles chamam de "código UA" ou "posto beneficiário" (?) que é usado no cálculo do DV.
+            get {
+                return _codigoUaSicredi;
+            } set {
+                if(int.TryParse(value, out _) && value.Length <= 2)
+                    _codigoUaSicredi = value.PadLeft(2, '0');
+                else    
+                    _codigoUaSicredi = "00";
+            } 
+        }
+
     }
 
     public enum ETipoValorRateio : short

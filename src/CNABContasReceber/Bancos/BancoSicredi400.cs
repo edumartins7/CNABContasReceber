@@ -60,8 +60,9 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(5, Opcoes.CodigoEmpresa); //27-31
             b.AppendNumero(14, Opcoes.CnpjBeneficiario); //32-45
             b.Append(new string(' ', 31)); //46-76
-            b.Append("748SICREDI"); //77-94
-            b.AppendData(DateTime.Now, "YYYYMMdd"); //95-102
+            b.Append("748"); //77-79
+            b.AppendTexto(15, "SICREDI");
+            b.AppendData(DateTime.Now, "yyyyMMdd"); //95-102
             b.Append(new string(' ', 8)); //103-110
             b.AppendNumero(7, Opcoes.NumeroSequencialRemessaCnab); //111-117
             b.Append(new string(' ', 273)); //118-390
@@ -79,7 +80,7 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 28)); //20-47
             b.AppendNumero(9, titulo.NossoNumero); //48-56
             b.Append(new string(' ', 6)); //57-62
-            b.AppendData(DateTime.Now, "YYYYMMdd"); //63-70 Data de instrução??
+            b.AppendData(DateTime.Now, "yyyyMMdd"); //63-70 Data de instrução??
             b.Append(' '); //71
             b.Append(' '); //72, 'S' para a sicredi fazer a postagem 
             b.Append(' ');//73
@@ -129,25 +130,20 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(6, _index); //395-400          
         }
 
-        private void RecalcularNossoNumero()
-        {
-            //da documentação: "Relacionar os códigos da Cooperativa (aaaa), posto beneficiário (pp), beneficiário (ccccc), ano atual (yy), byte
-            //de geração do Nosso Número(b) e o número sequencial do beneficiário(nnnnn): aaaappcccccyybnnnnn;"
+        //private void RecalcularNossoNumero()
+        //{
+        //    //da documentação: "Relacionar os códigos da Cooperativa (aaaa), posto beneficiário (pp), beneficiário (ccccc), ano atual (yy), byte
+        //    //de geração do Nosso Número(b) e o número sequencial do beneficiário(nnnnn): aaaappcccccyybnnnnn;"
 
-            var baseCalculo = $"{}";
-        }
+        //    var baseCalculo = $"{}";
+        //}
 
 
         public string DigNossoNumeroSicredi(string numeroSequencialTitulo)
         {
             
-
-
-
             var sequencialInt = int.Parse(numeroSequencialTitulo);
             var bytte = 2; //a sicred aceita numeros sequenciais até 99.999
-
-
 
 
 
@@ -157,12 +153,12 @@ namespace CnabContasReceber.Bancos
 
             //da documentação: "Relacionar os códigos da Cooperativa (aaaa), posto beneficiário (pp), beneficiário (ccccc), ano atual (yy), byte
             //de geração do Nosso Número(b) e o número sequencial do beneficiário(nnnnn): aaaappcccccyybnnnnn;"
-            var baseCalculo = $"{Opcoes.NumeroAgencia}{Opcoes.CodigoUaSicredi}{numeroSequencialTitulo.Length > 4}";
 
+            var isNumeric = int.TryParse(Opcoes.CodigoUaSicredi, out _);
 
+            var baseCalculo = $"{Opcoes.NumeroAgencia}{Opcoes.CodigoUaSicredi}{numeroSequencialTitulo.Length > 4}"; 
 
-
-            /* Variáveis
+           /* Variáveis
              * -------------
              * d - Dígito
              * s - Soma
@@ -173,9 +169,9 @@ namespace CnabContasReceber.Bancos
 
             int d, s = 0, p = 2, b = 9;
             //Atribui os pesos de {2..9}
-            for (int i = seq.Length - 1; i >= 0; i--)
+            for (int i = baseCalculo.Length - 1; i >= 0; i--)
             {
-                s = s + (Convert.ToInt32(seq.Substring(i, 1)) * p);
+                s = s + (Convert.ToInt32(baseCalculo.Substring(i, 1)) * p);
                 if (p < b)
                     p = p + 1;
                 else

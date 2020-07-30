@@ -5,7 +5,7 @@ using System.Text;
 using Xunit;
 using CnabContasReceber.Util;
 
-namespace CNABContasReceber.Testes.Santander
+namespace CNABContasReceber.Testes
 {
     public class EscreveNumeroTests
     {

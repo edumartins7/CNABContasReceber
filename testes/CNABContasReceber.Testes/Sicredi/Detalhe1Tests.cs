@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using Xunit;
 
-namespace CNABContasReceber.Testes.Bradesco
+namespace CNABContasReceber.Testes.Sicredi
 {
     public class Detalhe1Tests
     {
@@ -30,6 +30,17 @@ namespace CNABContasReceber.Testes.Bradesco
             Assert.Equal(400, _linha4.Length - 2);
         }
 
+
+        [Fact]
+        public void Escreveu_Numero_Titulo_Correto()
+        {
+            var linha = GerarLinhaDetalhe(Titulo1());
+            var valor = linha.Slice(38, 62);
+
+            Assert.Equal("0000000000000000000012345", valor);
+        }
+
+
         [Fact]
         public void Escreveu_Valor_Correto()
         {
@@ -38,7 +49,7 @@ namespace CNABContasReceber.Testes.Bradesco
             var valor3 = _linha3.Slice(127, 139);
             var valor4 = _linha4.Slice(127, 139);
 
-            Assert.Equal("0000000001099", valor1);
+            Assert.Equal("0000000106233", valor1);
             Assert.Equal("0000000001000", valor2);
             Assert.Equal("0193820139099", valor3);
             Assert.Equal("0000000000099", valor4);
@@ -50,21 +61,21 @@ namespace CNABContasReceber.Testes.Bradesco
             var linha = GerarLinhaDetalhe(Titulo1());
             var valor = linha.Slice(121, 126);
 
-            Assert.Equal("051119", valor);
+            Assert.Equal("150520", valor);
         }
 
         [Fact]
         public void Escreveu_Multa_Correta()
         {
             var linha = GerarLinhaDetalhe(Titulo1());
-            var valor = linha.Slice(67, 70);
+            var valor = linha.Slice(79, 82);
 
             Assert.Equal("1000", valor);
         }
 
         public static string GerarLinhaDetalhe(TituloReceber titulo)
         {
-            var cnab = new BancoBradesco400(Opcoes());
+            var cnab = new BancoSicred400(Opcoes());
             var sb = new StringBuilder();
             cnab.Detalhe1(sb, titulo);
 
@@ -79,7 +90,7 @@ namespace CNABContasReceber.Testes.Bradesco
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
-                Carteira = "57",
+                Carteira = "1",
                 CobraMulta = true,
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
@@ -88,7 +99,9 @@ namespace CNABContasReceber.Testes.Bradesco
                 DigitoContaCorrente = '3',
                 PercentualMoraDiaAtraso = 2m,
                 PercentualMulta = 10m,
-                RazaoSocial = "EMPRESA TAL LTDA"
+                RazaoSocial = "EMPRESA TAL LTDA",
+                CodigoUaSicredi = "17", 
+                CnpjBeneficiario = ""
             };
         }
 
@@ -97,14 +110,14 @@ namespace CNABContasReceber.Testes.Bradesco
             return new TituloReceber()
             {
                 Cep = "05201-210",
-                CpfCnpj = "32.140.856/0001-59",
-                Emissao = new DateTime(2019, 10, 2),
-                Vencimento = new DateTime(2019, 11, 5),
+                CpfCnpj = "25840272833",
+                Emissao = new DateTime(2020, 1, 2),
+                Vencimento = new DateTime(2020, 5, 15),
                 EnderecoCompleto = "RUA ALBION 193",
-                NomePagador = "LOJAS RENNER LTDA",
+                NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 10.99m
+                Valor = 1062.33m
             };
         }
 
