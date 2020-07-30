@@ -1,6 +1,7 @@
 ﻿using CnabContasReceber.Interfaces;
 using CnabContasReceber.Models;
 using CnabContasReceber.Util;
+using CNABContasReceber;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +11,10 @@ using System.Text;
 
 namespace CnabContasReceber.Bancos
 {
+    /// <summary>
+    /// O "Nosso Número" da Sicredi torna a implementação horrível. Isso porque eles te obrigam a passar um Id sequencial de 1 a 99999. Se ultrapassar 99999 títulos no ano você precisa variar o Byte.
+    /// Isso significa que seu Id interno não pode ser utilizado e te força a controlar esse Id Sicredi no seu backend. No nosso caso significou criar uma tabela dedicada a Sicredi que é populada por uma trigger.
+    /// </summary>
     public class BancoSicred400 : IBanco
     {
         private int _index = 1;
@@ -78,7 +83,7 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 12)); //5-16
             b.Append("ABB"); //17-19
             b.Append(new string(' ', 28)); //20-47
-            b.AppendNumero(9, titulo.NossoNumero); //48-56
+            b.AppendNumero(9, titulo.NossoNumero + CalcularDv(titulo)); //48-56 - importante: já trazer no formato AABXXXXX do seu backend. 
             b.Append(new string(' ', 6)); //57-62
             b.AppendData(DateTime.Now, "yyyyMMdd"); //63-70 Data de instrução??
             b.Append(' '); //71
@@ -130,33 +135,25 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(6, _index); //395-400          
         }
 
-        //private void RecalcularNossoNumero()
-        //{
-        //    //da documentação: "Relacionar os códigos da Cooperativa (aaaa), posto beneficiário (pp), beneficiário (ccccc), ano atual (yy), byte
-        //    //de geração do Nosso Número(b) e o número sequencial do beneficiário(nnnnn): aaaappcccccyybnnnnn;"
+  
+      
+        public string CalcularDv(TituloReceber titulo)
+        {           
 
-        //    var baseCalculo = $"{}";
-        //}
+            if (Opcoes.NumeroAgencia.Length > 4 || Opcoes.CodigoUaSicredi.Length > 2)
+                throw new Exception("Numero agencia ou código UA invalidos");
 
-
-        public string DigNossoNumeroSicredi(string numeroSequencialTitulo)
-        {
-            
-            var sequencialInt = int.Parse(numeroSequencialTitulo);
-            var bytte = 2; //a sicred aceita numeros sequenciais até 99.999
-
-
-
-            if (Opcoes.NumeroAgencia.Length > 4 || Opcoes.CodigoUaSicredi.Length > 2 || numeroSequencialTitulo.Length > 4)
-                throw new Exception("Numero agencia, código UA ou sequencial invalidos");
-
+            var sequencialInt = int.Parse(titulo.NumeroTitulo);
 
             //da documentação: "Relacionar os códigos da Cooperativa (aaaa), posto beneficiário (pp), beneficiário (ccccc), ano atual (yy), byte
             //de geração do Nosso Número(b) e o número sequencial do beneficiário(nnnnn): aaaappcccccyybnnnnn;"
 
-            var isNumeric = int.TryParse(Opcoes.CodigoUaSicredi, out _);
+            var ano = titulo.NossoNumero.Substring(0, 2);
+            var bytee = titulo.NossoNumero.Substring(2, 1);
+            var seq = titulo.NossoNumero.Substring(3, 5);
 
-            var baseCalculo = $"{Opcoes.NumeroAgencia}{Opcoes.CodigoUaSicredi}{numeroSequencialTitulo.Length > 4}"; 
+            var baseCalculo = Opcoes.NumeroAgencia.PadLeft(4, '0') + Opcoes.CodigoUaSicredi.PadLeft(2, '0') + Opcoes.CodigoEmpresa.PadLeft(5, '0') + ano + bytee + seq;
+
 
            /* Variáveis
              * -------------
@@ -167,52 +164,29 @@ namespace CnabContasReceber.Bancos
              * r - Resto
              */
 
-            int d, s = 0, p = 2, b = 9;
+            int digito, s = 0, peso = 2, b = 9;
+
             //Atribui os pesos de {2..9}
             for (int i = baseCalculo.Length - 1; i >= 0; i--)
             {
-                s = s + (Convert.ToInt32(baseCalculo.Substring(i, 1)) * p);
-                if (p < b)
-                    p = p + 1;
+                s = s + (Convert.ToInt32(baseCalculo.Substring(i, 1)) * peso);
+                if (peso < b)
+                    peso = peso + 1;
                 else
-                    p = 2;
+                    peso = 2;
             }
-            d = 11 - (s % 11);//Calcula o Módulo 11;
-            if (d > 9)
-                d = 0;
-            return d.ToString();
+
+            digito = 11 - (s % 11);//Calcula o Módulo 11;
+            
+            if (digito > 9)
+                digito = 0;
+
+            return digito.ToString();
         }
 
 
 
-        private string CalcularDvNossoNumero(string input)
-        {
-            var withZeroes = input.PadLeft(7, '0');
-
-            char[] charArr = withZeroes.ToCharArray().Reverse().ToArray();
-
-            int[] numbersArr = Array.ConvertAll<char, int>(charArr, x => (int) Char.GetNumericValue(x));
-
-            var multiplier = 2;
-            var total = 0;
-
-            foreach (var n in numbersArr)
-            {
-                if (multiplier > 9)
-                    multiplier = 2;
-
-                total += n * multiplier++;
-            }
-
-            var resto = total % 11;
-
-            if (resto == 10)
-                return "1";
-            else if (resto == 1 || resto == 0)
-                return "0";
-
-            return Math.Abs(resto - 11).ToString();
-        }
+        
 
     }
 }
