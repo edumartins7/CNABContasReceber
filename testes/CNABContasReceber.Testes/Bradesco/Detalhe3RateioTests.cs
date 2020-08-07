@@ -25,11 +25,11 @@ namespace CNABContasReceber.Testes.Bradesco
             Assert.Equal(400, _linhaTitulo2Rateio.Length -2); //o enter pra linha de baixo conta como 2
         }
 
-        [Fact]
-        public void Se_Soh_Um_Rateio_Nem_Escreve()
-        {
-            Assert.True(string.IsNullOrEmpty(_linhaTitulo1Rateio));
-        }
+        //[Fact]
+        //public void Se_Soh_Um_Rateio_Nem_Escreve()
+        //{
+        //    Assert.True(string.IsNullOrEmpty(_linhaTitulo1Rateio));
+        //}
 
         [Fact]
         public void Escreveu_Banco_Correto()

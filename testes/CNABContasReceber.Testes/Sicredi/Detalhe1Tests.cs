@@ -24,10 +24,15 @@ namespace CNABContasReceber.Testes.Sicredi
         [Fact]
         public void Escreveu_Nosso_Numero_Correto()
         {
-            var linha = GerarLinhaDetalhe(Titulo1());
-            var valor = linha.Slice(48, 56);
+            var linha1 = GerarLinhaDetalhe(Titulo1());
+            var linha2 = GerarLinhaDetalhe(Titulo2());
 
-            Assert.Equal("203000071", valor);
+            var valor1 = linha1.Slice(48, 56);
+            var valor2 = linha2.Slice(48, 56);
+
+            Assert.Equal("202000015", valor1);
+            Assert.Equal("202000023", valor2);
+
         }
 
         [Fact]
@@ -39,7 +44,15 @@ namespace CNABContasReceber.Testes.Sicredi
             Assert.Equal("12345     ", valor);
         }
 
+        [Fact]
+        public void Calcula_Dv_Correto()
+        {
+            var banco = new BancoSicred400(Opcoes());
+            var dv1 = banco.CalcularDv(Titulo1());
+            var dv2 = banco.CalcularDv(Titulo2());
 
+            Assert.Equal("3", dv2);
+        }
 
         [Fact]
         public void Escreveu_Valor_Correto()
@@ -58,6 +71,17 @@ namespace CNABContasReceber.Testes.Sicredi
             Assert.Equal("150520", valor);
         }
 
+
+        [Fact]
+        public void Escreveu_Parcelas_Corretas()
+        {
+            var linha = GerarLinhaDetalhe(Titulo1());
+            var numeroParcelaCarne = linha.Slice(75, 76);
+            var totalParcelas = linha.Slice(77, 78);
+
+            Assert.Equal("00", numeroParcelaCarne);
+            Assert.Equal("00", totalParcelas);
+        }
  
         public static string GerarLinhaDetalhe(TituloReceber titulo)
         {
@@ -72,7 +96,7 @@ namespace CNABContasReceber.Testes.Sicredi
         {
             return new Opcoes
             {
-                CodigoEmpresa = "4321",
+                CodigoEmpresa = "76584",
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
@@ -80,9 +104,9 @@ namespace CNABContasReceber.Testes.Sicredi
                 CobraMulta = true,
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
-                NumeroAgencia = "0989",
-                NumeroContaCorrente = "7177",
-                DigitoContaCorrente = '3',
+                NumeroAgencia = "0727",
+                NumeroContaCorrente = "76584",
+                DigitoContaCorrente = '8',
                 PercentualMoraDiaAtraso = 2m,
                 PercentualMulta = 10m,
                 RazaoSocial = "EMPRESA TAL LTDA",
@@ -99,15 +123,30 @@ namespace CNABContasReceber.Testes.Sicredi
                 CpfCnpj = "25840272833",
                 Emissao = new DateTime(2020, 1, 2),
                 Vencimento = new DateTime(2020, 5, 15),
-                EnderecoCompleto = "RUA ALBION 193",
-                NomePagador = "CARLOS EDUARDO REIS ",
-                NossoNumero = "20300007",
+                EnderecoCompleto = "RUA ALBION 9999",
+                NomePagador = "EDUARDO MAR MOR",
+                NossoNumero = "20200001",
                 NumeroTitulo = "12345",
                 Valor = 1062.33m
             };
         }
 
 
+        public static TituloReceber Titulo2()
+        {
+            return new TituloReceber()
+            {
+                Cep = "05201-210",
+                CpfCnpj = "25840272833",
+                Emissao = new DateTime(2020, 1, 2),
+                Vencimento = new DateTime(2020, 5, 15),
+                EnderecoCompleto = "RUA ALBION 9999",
+                NomePagador = "EDUARDO MAR MOR ",
+                NossoNumero = "20200002",
+                NumeroTitulo = "12345",
+                Valor = 99.99m
+            };
+        }
 
     }
 }

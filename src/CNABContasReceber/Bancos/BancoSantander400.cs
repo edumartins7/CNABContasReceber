@@ -15,14 +15,12 @@ namespace CnabContasReceber.Bancos
         private int _qtdeTitulos = 0;
         private decimal _valorTotalTitulos = 0;
 
-
         public BancoSantander400(Opcoes opcoes)
         {
             Opcoes = opcoes;
         }
 
         public Opcoes Opcoes { get; set; }
-
 
         public string MontarArquivo(IEnumerable<TituloReceber> titulos)
         {
@@ -178,5 +176,9 @@ namespace CnabContasReceber.Bancos
             return Math.Abs(resto - 11).ToString();
         }
 
+        public string NomearArquivo(DateTime? dt = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CnabContasReceber.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace CnabContasReceber.Interfaces
         void Detalhe1(StringBuilder b, TituloReceber titulo);
         void Trailer(StringBuilder b);
 
+        string NomearArquivo(DateTime? dataGeracaoArquivo = null);
         Opcoes Opcoes { get; set; }
     }
 }

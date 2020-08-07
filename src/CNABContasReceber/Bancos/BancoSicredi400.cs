@@ -1,12 +1,10 @@
 ﻿using CnabContasReceber.Interfaces;
 using CnabContasReceber.Models;
 using CnabContasReceber.Util;
-using CNABContasReceber;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace CnabContasReceber.Bancos
@@ -15,12 +13,12 @@ namespace CnabContasReceber.Bancos
     /// O "Nosso Número" da Sicredi torna a implementação horrível. Isso porque eles te obrigam a passar um Id sequencial de 1 a 99999. Se ultrapassar 99999 títulos no ano você precisa variar o Byte.
     /// Isso significa que seu Id interno não pode ser utilizado e te força a controlar esse Id Sicredi no seu backend. No nosso caso significou criar uma tabela dedicada a Sicredi que é populada por uma trigger.
     /// </summary>
+    /// 
     public class BancoSicred400 : IBanco
     {
         private int _index = 1;
         private int _qtdeTitulos = 0;
         private decimal _valorTotalTitulos = 0;
-
 
         public BancoSicred400(Opcoes opcoes)
         {
@@ -79,7 +77,7 @@ namespace CnabContasReceber.Bancos
         public void Detalhe1(StringBuilder b, TituloReceber titulo)
         {
             b.Append("1"); //1-1
-            b.AppendNumero(3, "AAA"); //02-04
+            b.AppendTexto(3, "AAA"); //02-04
             b.Append(new string(' ', 12)); //5-16
             b.Append("ABB"); //17-19
             b.Append(new string(' ', 28)); //20-47
@@ -87,11 +85,11 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 6)); //57-62
             b.AppendData(DateTime.Now, "yyyyMMdd"); //63-70 Data de instrução??
             b.Append(' '); //71
-            b.Append(' '); //72, 'S' para a sicredi fazer a postagem 
+            b.Append('N'); //72, 'S' para a sicredi fazer a postagem 
             b.Append(' ');//73
             b.Append('B'); //74
-            b.Append("01"); //75-76
-            b.Append("01"); //77-78
+            b.Append("00"); //75-76
+            b.Append("00"); //77-78
             b.Append(new string(' ', 4)); //79-82
             b.Append(new string('0', 10)); //83-92
             b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //93-96
@@ -132,18 +130,18 @@ namespace CnabContasReceber.Bancos
             b.Append("91748"); //01-05
             b.AppendNumero(5, Opcoes.CodigoEmpresa); //05-10
             b.Append(new string(' ', 384)); //11-394
-            b.AppendNumero(6, _index); //395-400          
+            b.AppendNumero(6, _index); //395-400      
+            b.Append(Environment.NewLine);
         }
 
-  
-      
+
+
         public string CalcularDv(TituloReceber titulo)
         {           
 
             if (Opcoes.NumeroAgencia.Length > 4 || Opcoes.CodigoUaSicredi.Length > 2)
                 throw new Exception("Numero agencia ou código UA invalidos");
 
-            var sequencialInt = int.Parse(titulo.NumeroTitulo);
 
             //da documentação: "Relacionar os códigos da Cooperativa (aaaa), posto beneficiário (pp), beneficiário (ccccc), ano atual (yy), byte
             //de geração do Nosso Número(b) e o número sequencial do beneficiário(nnnnn): aaaappcccccyybnnnnn;"
@@ -152,41 +150,67 @@ namespace CnabContasReceber.Bancos
             var bytee = titulo.NossoNumero.Substring(2, 1);
             var seq = titulo.NossoNumero.Substring(3, 5);
 
-            var baseCalculo = Opcoes.NumeroAgencia.PadLeft(4, '0') + Opcoes.CodigoUaSicredi.PadLeft(2, '0') + Opcoes.CodigoEmpresa.PadLeft(5, '0') + ano + bytee + seq;
+
+            return CalcularDv(Opcoes.CodigoEmpresa, Opcoes.NumeroAgencia, Opcoes.CodigoUaSicredi, int.Parse(ano), int.Parse(bytee), int.Parse(seq));
+        }
 
 
-           /* Variáveis
-             * -------------
-             * d - Dígito
-             * s - Soma
-             * p - Peso
-             * b - Base
-             * r - Resto
-             */
 
-            int digito, s = 0, peso = 2, b = 9;
+        /// <summary>
+        /// Calcula o DV do nosso número
+        /// </summary>
+        /// <param name="codigoEmpresa">da tabela Bancos</param>
+        /// <param name="numeroAgencia">da tabela Bancos</param>
+        /// <param name="codigoUa">da tabela Bancos</param>
+        /// <param name="ano">no formato 20, 21, 22... da tabela Contas_Receber_Seq_Sicredi</param>
+        /// <param name="bytee">da tabela Contas_Receber_Seq_Sicredi</param>
+        /// <param name="seq">da tabela Contas_Receber_Seq_Sicredi</param>
+        /// <returns></returns>
+        public static string CalcularDv(string codigoEmpresa, string numeroAgencia, string codigoUa, int ano, int bytee, int seq)
+        {
+            if (numeroAgencia.Length > 4 || codigoUa.Length > 2 || ano > 100 || bytee > 9 || seq > 99999)
+                throw new Exception("parâmetros inválidos.");
+
+            var baseCalculo = numeroAgencia.PadLeft(4, '0') + codigoUa.PadLeft(2, '0') + codigoEmpresa.PadLeft(5, '0') + ano + bytee + seq.ToString().PadLeft(5, '0');
+
+            int digito, soma = 0, peso = 2, bas = 9;
 
             //Atribui os pesos de {2..9}
             for (int i = baseCalculo.Length - 1; i >= 0; i--)
             {
-                s = s + (Convert.ToInt32(baseCalculo.Substring(i, 1)) * peso);
-                if (peso < b)
+                soma = soma + (Convert.ToInt32(baseCalculo.Substring(i, 1)) * peso);
+                if (peso < bas)
                     peso = peso + 1;
                 else
                     peso = 2;
             }
 
-            digito = 11 - (s % 11);//Calcula o Módulo 11;
-            
+            digito = 11 - (soma % 11);//Calcula o Módulo 11;
+
             if (digito > 9)
                 digito = 0;
 
             return digito.ToString();
         }
 
+        public string NomearArquivo(DateTime? dt = null)
+        {
+            if (dt == null)
+                dt = DateTime.Today;
+
+            char digitoMes = dt.Value.Month.ToString()[0];
+
+            if (dt.Value.Month == 10)
+                digitoMes = 'O';
+            else if (dt.Value.Month == 11)
+                digitoMes = 'N';
+            else if (dt.Value.Month == 12)
+                digitoMes = 'D';
 
 
-        
+            return $"{Opcoes.CodigoEmpresa}{digitoMes}{dt.Value:dd}.REM";
+        }
+
 
     }
 }

@@ -205,6 +205,10 @@ namespace CnabContasReceber.Bancos
             }
         }
 
+        public string NomearArquivo(DateTime? dt = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public static class MyExtensions

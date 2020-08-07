@@ -1,5 +1,3 @@
-using CnabContasReceber.Bancos;
-using CnabContasReceber.Models;
 using System;
 using System.Text;
 using Xunit;
@@ -19,9 +17,9 @@ namespace CNABContasReceber.Testes
         {
             var sb = new StringBuilder();
 
-            sb.AppendNumero(8, "2321122");
+            sb.AppendNumero(8, "123");
 
-            Assert.Equal("02321122", sb.ToString());
+            Assert.Equal("00000123", sb.ToString());
         }
 
         [Fact]
@@ -29,7 +27,7 @@ namespace CNABContasReceber.Testes
         {
             var sb = new StringBuilder();
 
-            sb.AppendNumero(8, "23211222");
+            sb.AppendNumero(8, "12345678");
 
             Assert.Equal(8, sb.ToString().Length);
         }
@@ -39,9 +37,7 @@ namespace CNABContasReceber.Testes
         {
             var sb = new StringBuilder();
 
-            sb.AppendNumero(8, "232112222");
-
-            Assert.Throws<Exception>(() => sb.AppendNumero(8, "232112222"));
+            Assert.Throws<Exception>(() => sb.AppendNumero(8, "123456789"));
         }
 
     }
