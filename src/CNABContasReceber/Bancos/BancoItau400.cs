@@ -97,8 +97,8 @@ namespace CnabContasReceber.Bancos
             b.Append("06"); //148-149 Especie de Titulo - Contrato
             b.Append("N"); //150-150 Aceite/Não Aceite
             b.AppendData(titulo.Emissao); //151-156
-            b.Append("94"); //157-158 
-            b.Append("94"); //159-160 
+            b.Append("39"); //157-158 
+            b.Append("00"); //159-160 
             b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
             b.Append("000000"); //174-179 Data Desconto
             b.AppendDinheiro(13, 0); //180-192 Valor Desconto
@@ -112,7 +112,7 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(8, titulo.Cep); //327-334 VERIFICAR TEXTO CEP
             b.AppendTexto(15, titulo.Cidade); //335-349
             b.AppendTexto(2, titulo.UF); //350-351
-            b.AppendTexto(34, (Opcoes.Msg1 + " - " + Opcoes.Msg2)); //352-381 & 382-385
+            b.Append(new string(' ', 34)); //352-381 & 382-385
             b.Append("00000000 "); //386-391 & 392-393 & 394-394 
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
