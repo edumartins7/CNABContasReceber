@@ -12,8 +12,6 @@ namespace CnabContasReceber.Bancos
     public class BancoDoBrasil400 : IBanco
     {
         private int _index = 1;
-        private int _qtdeTitulos = 0;
-        private decimal _valorTotalTitulos = 0;
 
         public BancoDoBrasil400(Opcoes opcoes)
         {
@@ -25,8 +23,6 @@ namespace CnabContasReceber.Bancos
         public string MontarArquivo(IEnumerable<TituloReceber> titulos)
         {
             _index = 1;
-            _qtdeTitulos = titulos.Count();
-            _valorTotalTitulos = titulos.Sum(x => x.Valor);
 
             var b = new StringBuilder();
 
@@ -108,8 +104,8 @@ namespace CnabContasReceber.Bancos
             b.AppendDinheiro(13, 0); //206-218 Valor Abatimento
             b.AppendNumero(2, titulo.PessoaJuridica() ? "02" : "01"); //219-220
             b.AppendNumero(14, titulo.CpfCnpj); //221-234
-            b.AppendTexto(37, titulo.NomePagador); //235-264
-            b.Append(new string(' ', 3)); //265-274
+            b.AppendTexto(37, titulo.NomePagador); //235-271
+            b.Append(new string(' ', 3)); //272-274
             b.AppendTexto(40, titulo.EnderecoCompleto); //275-314
             b.AppendTexto(12, titulo.Bairro); //315-326
             b.AppendNumero(8, titulo.Cep); //327-334 VERIFICAR TEXTO CEP
@@ -127,35 +123,6 @@ namespace CnabContasReceber.Bancos
             b.Append("9"); //1=1
             b.Append(new string(' ', 393)); //002-394
             b.AppendNumero(6, _index); //395-400
-        }
-
-        private string CalcularDvNossoNumero(string input)
-        {
-            var withZeroes = input.PadLeft(7, '0');
-
-            char[] charArr = withZeroes.ToCharArray().Reverse().ToArray();
-
-            int[] numbersArr = Array.ConvertAll<char, int>(charArr, x => (int)Char.GetNumericValue(x));
-
-            var multiplier = 2;
-            var total = 0;
-
-            foreach (var n in numbersArr)
-            {
-                if (multiplier > 9)
-                    multiplier = 2;
-
-                total += n * multiplier++;
-            }
-
-            var resto = total % 11;
-
-            if (resto == 10)
-                return "1";
-            else if (resto == 1 || resto == 0)
-                return "0";
-
-            return Math.Abs(resto - 11).ToString();
         }
 
         public string NomearArquivo(DateTime? dt = null)

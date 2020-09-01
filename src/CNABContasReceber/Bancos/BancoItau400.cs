@@ -121,10 +121,6 @@ namespace CnabContasReceber.Bancos
 
         public void Detalhe3(StringBuilder b, string nossoNumero, IEnumerable<RateioCredito> rateios)
         {
-            var primeiroRateio = rateios.ElementAtOrDefault(0);
-            var segundoRateio = rateios.ElementAtOrDefault(1);
-            var terceiroRateio = rateios.ElementAtOrDefault(2);
-
             b.Append("402"); //1-1 & 2-3
             b.AppendNumero(14, Opcoes.CnpjBeneficiario);//4-17
             b.AppendNumero(4, Opcoes.NumeroAgencia);//18-21
@@ -136,13 +132,9 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(1, 1); //41-41
             b.AppendNumero(2, Opcoes.NumeroSequencialRemessaCnab); //42-43
 
-            EscreverRateioCredito(b, primeiroRateio);
-            EscreverRateioCredito(b, segundoRateio);
-            EscreverRateioCredito(b, terceiroRateio);
-
-            for(int i = 0; i < 11; i++)
+            for(int i = 0; i < 14; i++)
             {
-                EscreverRateioCredito(b, null);
+                EscreverRateioCredito(b, rateios.ElementAtOrDefault(i));
             }
             b.Append("4");// 394-394
             b.AppendNumero(6, _index++); //395-400
