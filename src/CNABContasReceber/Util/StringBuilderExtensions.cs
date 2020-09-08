@@ -55,6 +55,19 @@ namespace CnabContasReceber.Util
             return sb.AppendData(data, "ddMMyy");
         }
 
+        public static StringBuilder AppendData(this StringBuilder sb, DateTime? data)
+        {
+            if(data != null)
+            {
+               return sb.AppendData(Convert.ToDateTime(data), "ddMMyy");
+                
+            }
+            else
+            {
+                return sb.Append("000000");
+            }
+        }
+
         public static StringBuilder AppendData(this StringBuilder sb, DateTime data, string format)
         {
             sb.Append(data.ToString(format));

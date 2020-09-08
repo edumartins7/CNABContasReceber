@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace CnabContasReceber.Models
 {
     public class Opcoes
@@ -22,6 +24,12 @@ namespace CnabContasReceber.Models
         public decimal PercentualMulta { get; set; }
         public decimal PercentualMoraDiaAtraso { get; set; }
 
+        public int DiasDesconto1 { get; set; }
+        public int DiasDesconto2 { get; set; }
+        public int DiasDesconto3 { get; set; }
+        public decimal PorcentagemDesconto1 { get; set; }
+        public decimal PorcentagemDesconto2 { get; set; }
+        public decimal PorcentagemDesconto3 { get; set; }
 
         public string Msg1 { get; set; }
         public string Msg2 { get; set; }
