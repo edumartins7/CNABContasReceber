@@ -146,8 +146,7 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 393)); //002-394
             b.AppendNumero(6, _index); //395-400
         }
-
-        private Desconto CalculoDesconto(decimal porcentagem, int dias, TituloReceber t)
+        private Desconto CalculoDesconto(int n, TituloReceber t)
         {
             var desconto = new List<Desconto>();
             if (Opcoes.DiasDesconto1 > 0)
