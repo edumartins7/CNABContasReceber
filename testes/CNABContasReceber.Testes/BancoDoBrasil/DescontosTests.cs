@@ -63,8 +63,10 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         {
             return new Opcoes
             {
-                DiasDesconto2= 4,
-                DiasDesconto3= 0,
+                DiasDesconto1 = 4,
+                DiasDesconto2 = 4,
+                DiasDesconto3 = 0,
+                PorcentagemDesconto1 = 10m,
                 PorcentagemDesconto2 = 10m,
                 PorcentagemDesconto3 = 20m
             };
