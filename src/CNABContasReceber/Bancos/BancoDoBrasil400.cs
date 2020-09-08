@@ -4,6 +4,7 @@ using CnabContasReceber.Util;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -73,7 +74,7 @@ namespace CnabContasReceber.Bancos
 
         public void Detalhe1(StringBuilder b, TituloReceber titulo)
         {
-            var desconto1 = CalculoDesconto(Opcoes.PorcentagemDesconto1, Opcoes.DiasDesconto1, titulo);
+            var desconto1 = CalculoDesconto(1, titulo);
 
             b.Append("7"); //1-1
             b.AppendNumero(2, "02"); //02-03
@@ -125,8 +126,8 @@ namespace CnabContasReceber.Bancos
 
         public void DescontosAdicionais(StringBuilder b, TituloReceber titulo)
         {
-            var desconto2 = CalculoDesconto(Opcoes.PorcentagemDesconto2, Opcoes.DiasDesconto2, titulo);
-            var desconto3 = CalculoDesconto(Opcoes.PorcentagemDesconto3, Opcoes.DiasDesconto3, titulo);
+            var desconto2 = CalculoDesconto(2, titulo);
+            var desconto3 = CalculoDesconto(3, titulo);
 
             b.Append("5"); //1-1
             b.AppendNumero(2, "07"); //2-3
@@ -148,30 +149,69 @@ namespace CnabContasReceber.Bancos
 
         private Desconto CalculoDesconto(decimal porcentagem, int dias, TituloReceber t)
         {
-            var desconto = new Desconto();
-            if (dias > 0)
+            var desconto = new List<Desconto>();
+            if (Opcoes.DiasDesconto1 > 0)
             {
-                if (t.Vencimento.AddDays(-dias) >= DateTime.Now)
+                if (t.Vencimento.AddDays(-Opcoes.DiasDesconto1) >= DateTime.Now)
                 {
-                    desconto.Data = t.Vencimento.AddDays(-dias);
-
-                    if (porcentagem > 0)
-                        desconto.Valor = ((t.Valor * porcentagem) / 100);
+                    desconto.Add(new Desconto { 
+                        Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto1), 
+                        Valor = ((t.Valor * Opcoes.PorcentagemDesconto1) / 100) 
+                    });                    
                 }
             }
-
-            return desconto;
+            if (Opcoes.DiasDesconto2 > 0)
+            {
+                if (t.Vencimento.AddDays(-Opcoes.DiasDesconto2) >= DateTime.Now)
+                {
+                    desconto.Add(new Desconto
+                    {
+                        Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto2),
+                        Valor = ((t.Valor * Opcoes.PorcentagemDesconto2) / 100)
+                    });
+                }
+            }
+            if (Opcoes.DiasDesconto3 > 0)
+            {
+                if (t.Vencimento.AddDays(-Opcoes.DiasDesconto3) >= DateTime.Now)
+                {
+                    desconto.Add(new Desconto
+                    {
+                        Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto3),
+                        Valor = ((t.Valor * Opcoes.PorcentagemDesconto3) / 100)
+                    });
+                }
+            }
+            try
+            {
+                return desconto[n - 1];
+            }
+            catch(Exception e)
+            {
+                return new Desconto();
+            }            
         }
 
         public string NomearArquivo(DateTime? dt = null)
         {
             throw new NotImplementedException();
         }
-
         public class Desconto
         {
+            public Desconto(int dias, decimal porcentagem, DateTime vencimentoTitulo, decimal valorTitulo)
+            {
+                Data = vencimentoTitulo.AddDays(-dias);
+                Valor = (valorTitulo * porcentagem) / 100;
+            }
             public DateTime? Data { get; set; }
             public decimal Valor { get; set; }
+            public bool DataValida()
+            {
+                if (Data == null || Data < DateTime.Today)
+                    return false;
+                return true;
+            }
+
         }
     }
 }
