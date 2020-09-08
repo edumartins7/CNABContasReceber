@@ -31,6 +31,8 @@ namespace CnabContasReceber.Bancos
 
             foreach (TituloReceber t in titulos)
             {
+                t.CalcularDescontos(Opcoes);
+
                 Detalhe1(b, t);
 
                 if (Opcoes.BancoEnviaBoleto)
@@ -41,7 +43,7 @@ namespace CnabContasReceber.Bancos
                     throw new NotImplementedException("CobrancaCompartilhada");
                 }
 
-                if (Opcoes.DiasDesconto1 != 0 && (Opcoes.DiasDesconto2 != 0 || Opcoes.DiasDesconto3 != 0))
+                if (t.Descontos.Count() >= 2)
                     DescontosAdicionais(b, t);
             }
 
@@ -74,7 +76,7 @@ namespace CnabContasReceber.Bancos
 
         public void Detalhe1(StringBuilder b, TituloReceber titulo)
         {
-            var desconto1 = CalculoDesconto(1, titulo);
+            TituloReceber.Desconto desconto1 = titulo.Descontos.FirstOrDefault();
 
             b.Append("7"); //1-1
             b.AppendNumero(2, "02"); //02-03
@@ -104,8 +106,17 @@ namespace CnabContasReceber.Bancos
             b.AppendData(titulo.Emissao); //151-156
             b.Append("0700"); //157-158 & 159-160
             b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
-            b.AppendData(desconto1.Data); //174-179 Data Desconto
-            b.AppendDinheiro(13, desconto1.Valor); //180-192 Valor Desconto
+
+            if(desconto1 != null)
+            {
+                b.AppendData(desconto1.DataLimite); //174-179 Data Desconto
+                b.AppendDinheiro(13, desconto1.Valor); //180-192 Valor Desconto
+            }
+            else
+            {
+                b.Append(new string('0', 19));
+            }
+
             b.AppendDinheiro(13, 0); //193-205 Valor do IOF
             b.AppendDinheiro(13, 0); //206-218 Valor Abatimento
             b.AppendNumero(2, titulo.PessoaJuridica() ? "02" : "01"); //219-220
@@ -126,15 +137,25 @@ namespace CnabContasReceber.Bancos
 
         public void DescontosAdicionais(StringBuilder b, TituloReceber titulo)
         {
-            var desconto2 = CalculoDesconto(2, titulo);
-            var desconto3 = CalculoDesconto(3, titulo);
+            TituloReceber.Desconto desconto2 = titulo.Descontos.ElementAt(1);
+            TituloReceber.Desconto desconto3 = titulo.Descontos.ElementAtOrDefault(2);
+
 
             b.Append("5"); //1-1
             b.AppendNumero(2, "07"); //2-3
-            b.AppendData(desconto2.Data); //4-9 Data Desconto 2
+            b.AppendData(desconto2.DataLimite); //4-9 Data Desconto 2
             b.AppendDinheiro(17, desconto2.Valor); //10-26 Valor Desconto 2
-            b.AppendData(desconto3.Data); //27-32 Data Desconto 3
-            b.AppendDinheiro(17, desconto3.Valor); //33-49 Valor Desconto 3
+
+            if(desconto3 != null)
+            {
+                b.AppendData(desconto3.DataLimite); //27-32 Data Desconto 3
+                b.AppendDinheiro(17, desconto3.Valor); //33-49 Valor Desconto 3
+            }
+            else
+            {
+                b.Append(new string('0', 23));
+            }
+            
             b.Append(new string(' ', 345)); //50-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
@@ -146,71 +167,72 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 393)); //002-394
             b.AppendNumero(6, _index); //395-400
         }
-        private Desconto CalculoDesconto(int n, TituloReceber t)
-        {
-            var desconto = new List<Desconto>();
-            if (Opcoes.DiasDesconto1 > 0)
-            {
-                if (t.Vencimento.AddDays(-Opcoes.DiasDesconto1) >= DateTime.Now)
-                {
-                    desconto.Add(new Desconto { 
-                        Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto1), 
-                        Valor = ((t.Valor * Opcoes.PorcentagemDesconto1) / 100) 
-                    });                    
-                }
-            }
-            if (Opcoes.DiasDesconto2 > 0)
-            {
-                if (t.Vencimento.AddDays(-Opcoes.DiasDesconto2) >= DateTime.Now)
-                {
-                    desconto.Add(new Desconto
-                    {
-                        Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto2),
-                        Valor = ((t.Valor * Opcoes.PorcentagemDesconto2) / 100)
-                    });
-                }
-            }
-            if (Opcoes.DiasDesconto3 > 0)
-            {
-                if (t.Vencimento.AddDays(-Opcoes.DiasDesconto3) >= DateTime.Now)
-                {
-                    desconto.Add(new Desconto
-                    {
-                        Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto3),
-                        Valor = ((t.Valor * Opcoes.PorcentagemDesconto3) / 100)
-                    });
-                }
-            }
-            try
-            {
-                return desconto[n - 1];
-            }
-            catch(Exception e)
-            {
-                return new Desconto();
-            }            
-        }
+
+        //private Desconto CalculoDesconto(int n, TituloReceber t)
+        //{
+        //    var desconto = new List<Desconto>();
+        //    if (Opcoes.DiasDesconto1 > 0)
+        //    {
+        //        if (t.Vencimento.AddDays(-Opcoes.DiasDesconto1) >= DateTime.Now)
+        //        {
+        //            desconto.Add(new Desconto { 
+        //                Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto1), 
+        //                Valor = ((t.Valor * Opcoes.PorcentagemDesconto1) / 100) 
+        //            });                    
+        //        }
+        //    }
+        //    if (Opcoes.DiasDesconto2 > 0)
+        //    {
+        //        if (t.Vencimento.AddDays(-Opcoes.DiasDesconto2) >= DateTime.Now)
+        //        {
+        //            desconto.Add(new Desconto
+        //            {
+        //                Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto2),
+        //                Valor = ((t.Valor * Opcoes.PorcentagemDesconto2) / 100)
+        //            });
+        //        }
+        //    }
+        //    if (Opcoes.DiasDesconto3 > 0)
+        //    {
+        //        if (t.Vencimento.AddDays(-Opcoes.DiasDesconto3) >= DateTime.Now)
+        //        {
+        //            desconto.Add(new Desconto
+        //            {
+        //                Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto3),
+        //                Valor = ((t.Valor * Opcoes.PorcentagemDesconto3) / 100)
+        //            });
+        //        }
+        //    }
+        //    try
+        //    {
+        //        return desconto[n - 1];
+        //    }
+        //    catch(Exception e)
+        //    {
+        //        return new Desconto();
+        //    }            
+        //}
 
         public string NomearArquivo(DateTime? dt = null)
         {
             throw new NotImplementedException();
         }
-        public class Desconto
-        {
-            public Desconto(int dias, decimal porcentagem, DateTime vencimentoTitulo, decimal valorTitulo)
-            {
-                Data = vencimentoTitulo.AddDays(-dias);
-                Valor = (valorTitulo * porcentagem) / 100;
-            }
-            public DateTime? Data { get; set; }
-            public decimal Valor { get; set; }
-            public bool DataValida()
-            {
-                if (Data == null || Data < DateTime.Today)
-                    return false;
-                return true;
-            }
+        //public class Desconto
+        //{
+        //    public Desconto(int dias, decimal porcentagem, DateTime vencimentoTitulo, decimal valorTitulo)
+        //    {
+        //        Data = vencimentoTitulo.AddDays(-dias);
+        //        Valor = (valorTitulo * porcentagem) / 100;
+        //    }
+        //    public DateTime? Data { get; set; }
+        //    public decimal Valor { get; set; }
+        //    public bool DataValida()
+        //    {
+        //        if (Data == null || Data < DateTime.Today)
+        //            return false;
+        //        return true;
+        //    }
 
-        }
+        //}
     }
 }

@@ -24,12 +24,16 @@ namespace CnabContasReceber.Models
         public decimal PercentualMulta { get; set; }
         public decimal PercentualMoraDiaAtraso { get; set; }
 
-        public int DiasDesconto1 { get; set; }
-        public int DiasDesconto2 { get; set; }
-        public int DiasDesconto3 { get; set; }
-        public decimal PorcentagemDesconto1 { get; set; }
-        public decimal PorcentagemDesconto2 { get; set; }
-        public decimal PorcentagemDesconto3 { get; set; }
+        public OpcoesDesconto Desconto1 { get; set; }
+        public OpcoesDesconto Desconto2 { get; set; }
+        public OpcoesDesconto Desconto3 { get; set; }
+
+        //public int DiasDesconto1 { get; set; }
+        //public int DiasDesconto2 { get; set; }
+        //public int DiasDesconto3 { get; set; }
+        //public decimal PorcentagemDesconto1 { get; set; }
+        //public decimal PorcentagemDesconto2 { get; set; }
+        //public decimal PorcentagemDesconto3 { get; set; }
 
         public string Msg1 { get; set; }
         public string Msg2 { get; set; }
@@ -56,5 +60,36 @@ namespace CnabContasReceber.Models
     {
         Percentual = 1,
         Valor = 2
+    }
+
+    public class OpcoesDesconto
+    {
+        public int DiasDesconto { get; set; }
+        public decimal Porcentagem { get; set; }
+
+        
+        public TituloReceber.Desconto Calcular(DateTime vencimentoTitulo, decimal valor)
+        {
+            return new TituloReceber.Desconto()
+            {
+                DataLimite = CalcularData(vencimentoTitulo),
+                Valor = CalcularValor(valor)
+            };
+        }
+
+        private DateTime? CalcularData(DateTime vencimentoTitulo)
+        {
+            DateTime d = vencimentoTitulo.AddDays(DiasDesconto * -1);
+
+            if (d < DateTime.Today)
+                return null;
+
+            return d;
+        }
+
+        private decimal CalcularValor(decimal valorTitulo)
+        {
+            return (valorTitulo * Porcentagem) / 100;
+        }
     }
 }
