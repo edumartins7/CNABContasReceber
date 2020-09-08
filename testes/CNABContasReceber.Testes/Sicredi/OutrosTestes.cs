@@ -13,15 +13,15 @@ namespace CNABContasReceber.Testes.Sicredi
         }
 
         [Fact]
-        public void Tem400Caracteres()
+        public void Nome_Arquivo_Correto()
         {
             var banco = new BancoSicred400(Opcoes());
 
-            Assert.Equal("76584805.REM", banco.NomearArquivo(new DateTime(2020, 8, 5)));
+            Assert.Equal("76584805.CRM", banco.NomearArquivo(new DateTime(2020, 8, 5)));
 
-            Assert.Equal("76584O05.REM", banco.NomearArquivo(new DateTime(2020, 10, 5)));
-            Assert.Equal("76584N05.REM", banco.NomearArquivo(new DateTime(2020, 11, 5)));
-            Assert.Equal("76584D11.REM", banco.NomearArquivo(new DateTime(2020, 12, 11)));
+            Assert.Equal("76584O05.CRM", banco.NomearArquivo(new DateTime(2020, 10, 5)));
+            Assert.Equal("76584N05.CRM", banco.NomearArquivo(new DateTime(2020, 11, 5)));
+            Assert.Equal("76584D11.CRM", banco.NomearArquivo(new DateTime(2020, 12, 11)));
 
         }
 

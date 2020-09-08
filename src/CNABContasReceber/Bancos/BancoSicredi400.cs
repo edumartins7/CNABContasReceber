@@ -17,8 +17,6 @@ namespace CnabContasReceber.Bancos
     public class BancoSicred400 : IBanco
     {
         private int _index = 1;
-        private int _qtdeTitulos = 0;
-        private decimal _valorTotalTitulos = 0;
 
         public BancoSicred400(Opcoes opcoes)
         {
@@ -30,8 +28,6 @@ namespace CnabContasReceber.Bancos
         public string MontarArquivo(IEnumerable<TituloReceber> titulos)
         {
             _index = 1;
-            _qtdeTitulos = titulos.Count();
-            _valorTotalTitulos = titulos.Sum(x => x.Valor);
 
             var b = new StringBuilder();
 
@@ -207,10 +203,8 @@ namespace CnabContasReceber.Bancos
             else if (dt.Value.Month == 12)
                 digitoMes = 'D';
 
-
-            return $"{Opcoes.CodigoEmpresa}{digitoMes}{dt.Value:dd}.REM";
+            return $"{Opcoes.CodigoEmpresa}{digitoMes}{dt.Value:dd}.CRM";
         }
-
 
     }
 }
