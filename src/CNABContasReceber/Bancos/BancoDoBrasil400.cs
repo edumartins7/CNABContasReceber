@@ -168,71 +168,9 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(6, _index); //395-400
         }
 
-        //private Desconto CalculoDesconto(int n, TituloReceber t)
-        //{
-        //    var desconto = new List<Desconto>();
-        //    if (Opcoes.DiasDesconto1 > 0)
-        //    {
-        //        if (t.Vencimento.AddDays(-Opcoes.DiasDesconto1) >= DateTime.Now)
-        //        {
-        //            desconto.Add(new Desconto { 
-        //                Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto1), 
-        //                Valor = ((t.Valor * Opcoes.PorcentagemDesconto1) / 100) 
-        //            });                    
-        //        }
-        //    }
-        //    if (Opcoes.DiasDesconto2 > 0)
-        //    {
-        //        if (t.Vencimento.AddDays(-Opcoes.DiasDesconto2) >= DateTime.Now)
-        //        {
-        //            desconto.Add(new Desconto
-        //            {
-        //                Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto2),
-        //                Valor = ((t.Valor * Opcoes.PorcentagemDesconto2) / 100)
-        //            });
-        //        }
-        //    }
-        //    if (Opcoes.DiasDesconto3 > 0)
-        //    {
-        //        if (t.Vencimento.AddDays(-Opcoes.DiasDesconto3) >= DateTime.Now)
-        //        {
-        //            desconto.Add(new Desconto
-        //            {
-        //                Data = t.Vencimento.AddDays(-Opcoes.DiasDesconto3),
-        //                Valor = ((t.Valor * Opcoes.PorcentagemDesconto3) / 100)
-        //            });
-        //        }
-        //    }
-        //    try
-        //    {
-        //        return desconto[n - 1];
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        return new Desconto();
-        //    }            
-        //}
-
         public string NomearArquivo(DateTime? dt = null)
         {
             throw new NotImplementedException();
         }
-        //public class Desconto
-        //{
-        //    public Desconto(int dias, decimal porcentagem, DateTime vencimentoTitulo, decimal valorTitulo)
-        //    {
-        //        Data = vencimentoTitulo.AddDays(-dias);
-        //        Valor = (valorTitulo * porcentagem) / 100;
-        //    }
-        //    public DateTime? Data { get; set; }
-        //    public decimal Valor { get; set; }
-        //    public bool DataValida()
-        //    {
-        //        if (Data == null || Data < DateTime.Today)
-        //            return false;
-        //        return true;
-        //    }
-
-        //}
     }
 }

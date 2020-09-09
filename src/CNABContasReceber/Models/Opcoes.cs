@@ -28,13 +28,6 @@ namespace CnabContasReceber.Models
         public OpcoesDesconto Desconto2 { get; set; }
         public OpcoesDesconto Desconto3 { get; set; }
 
-        //public int DiasDesconto1 { get; set; }
-        //public int DiasDesconto2 { get; set; }
-        //public int DiasDesconto3 { get; set; }
-        //public decimal PorcentagemDesconto1 { get; set; }
-        //public decimal PorcentagemDesconto2 { get; set; }
-        //public decimal PorcentagemDesconto3 { get; set; }
-
         public string Msg1 { get; set; }
         public string Msg2 { get; set; }
 
@@ -79,9 +72,9 @@ namespace CnabContasReceber.Models
 
         private DateTime? CalcularData(DateTime vencimentoTitulo)
         {
-            DateTime d = vencimentoTitulo.AddDays(DiasDesconto * -1);
+            DateTime d = vencimentoTitulo.AddDays(-DiasDesconto);
 
-            if (d < DateTime.Today)
+            if (d < DateTime.Today || DiasDesconto < 1)
                 return null;
 
             return d;

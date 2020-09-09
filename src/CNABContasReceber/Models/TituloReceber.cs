@@ -22,10 +22,6 @@ namespace CnabContasReceber.Models
         public string Cidade  { get; set; }
         public string UF { get; set; }
 
-
-        //public Desconto Desconto1 { get; set; }
-        //public Desconto Desconto2 { get; set; }
-        //public Desconto Desconto3 { get; set; }
         public IEnumerable<Desconto> Descontos { get; private set; }
 
         public void CalcularDescontos(Opcoes opcoes)

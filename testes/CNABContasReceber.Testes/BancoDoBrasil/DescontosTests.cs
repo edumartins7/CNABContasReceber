@@ -34,8 +34,9 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var data1 = linha.Slice(4, 9);
             var data2 = linha.Slice(27, 32);
 
-            Assert.Equal("160920", data1);
+            Assert.Equal("170920", data1);
             Assert.Equal("000000", data2);
+
         }
 
         [Fact]
@@ -54,7 +55,9 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         {
             var cnab = new BancoDoBrasil400(opcoes);
             var sb = new StringBuilder();
-            cnab.DescontosAdicionais(sb, Titulo());
+            var t = Titulo();
+            t.CalcularDescontos(opcoes);
+            cnab.DescontosAdicionais(sb, t);
 
             return sb.ToString();
         }
@@ -63,32 +66,25 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         {
             return new Opcoes
             {
-                DiasDesconto1 = 4,
-                DiasDesconto2 = 4,
-                DiasDesconto3 = 0,
-                PorcentagemDesconto1 = 10m,
-                PorcentagemDesconto2 = 10m,
-                PorcentagemDesconto3 = 20m
+                Desconto1 = new OpcoesDesconto { DiasDesconto = 5, Porcentagem = 11m },
+                Desconto2 = new OpcoesDesconto { DiasDesconto = 4, Porcentagem = 10m },
+                Desconto3 = new OpcoesDesconto { DiasDesconto = 0, Porcentagem = 20m }
             };
         }
         public static Opcoes Opcoes2()
         {
             return new Opcoes
             {
-                DiasDesconto2 = 2,
-                DiasDesconto3 = 0,
-                PorcentagemDesconto2 = 10m,
-                PorcentagemDesconto3 = 22m
+                Desconto2 = new OpcoesDesconto { DiasDesconto = 2, Porcentagem = 10m },
+                Desconto3 = new OpcoesDesconto { DiasDesconto = 1, Porcentagem = 22m }
             };
         }
         public static Opcoes Opcoes3()
         {
             return new Opcoes
             {
-                DiasDesconto2 = 4,
-                DiasDesconto3 = 3,
-                PorcentagemDesconto2 = 0m,
-                PorcentagemDesconto3 = 33m
+                Desconto2 = new OpcoesDesconto { DiasDesconto = 4, Porcentagem = 0m },
+                Desconto3 = new OpcoesDesconto { DiasDesconto = 3, Porcentagem = 33m }
             };
         }
         public static TituloReceber Titulo()
@@ -98,7 +94,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 Cep = "05201-210",
                 CpfCnpj = "25840272833",
                 Emissao = new DateTime(2020, 1, 2),
-                Vencimento = new DateTime(2020, 9, 20),
+                Vencimento = new DateTime(2020, 9, 21),
                 EnderecoCompleto = "RUA ALBION 193",
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
