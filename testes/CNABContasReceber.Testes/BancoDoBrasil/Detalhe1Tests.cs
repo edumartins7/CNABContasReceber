@@ -75,6 +75,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         {
             var cnab = new BancoDoBrasil400(Opcoes());
             var sb = new StringBuilder();
+            titulo.CalcularDescontos(Opcoes());
             cnab.Detalhe1(sb, titulo);
 
             return sb.ToString();

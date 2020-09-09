@@ -4,6 +4,7 @@ using CnabContasReceber.Util;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -28,8 +29,10 @@ namespace CnabContasReceber.Bancos
 
             Header(b);
 
-            foreach(TituloReceber t in titulos)
+            foreach (TituloReceber t in titulos)
             {
+                t.CalcularDescontos(Opcoes);
+
                 Detalhe1(b, t);
 
                 if (Opcoes.BancoEnviaBoleto)
@@ -39,6 +42,9 @@ namespace CnabContasReceber.Bancos
                 {
                     throw new NotImplementedException("CobrancaCompartilhada");
                 }
+
+                if (t.Descontos.Count() >= 2)
+                    DescontosAdicionais(b, t);
             }
 
             Trailer(b);
@@ -70,6 +76,8 @@ namespace CnabContasReceber.Bancos
 
         public void Detalhe1(StringBuilder b, TituloReceber titulo)
         {
+            TituloReceber.Desconto desconto1 = titulo.Descontos.FirstOrDefault();
+
             b.Append("7"); //1-1
             b.AppendNumero(2, "02"); //02-03
             b.AppendNumero(14, Opcoes.CnpjBeneficiario); //04-17
@@ -98,8 +106,17 @@ namespace CnabContasReceber.Bancos
             b.AppendData(titulo.Emissao); //151-156
             b.Append("0700"); //157-158 & 159-160
             b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
-            b.Append("000000"); //174-179 Data Desconto
-            b.AppendDinheiro(13, 0); //180-192 Valor Desconto
+
+            if(desconto1 != null)
+            {
+                b.AppendData(desconto1.DataLimite); //174-179 Data Desconto
+                b.AppendDinheiro(13, desconto1.Valor); //180-192 Valor Desconto
+            }
+            else
+            {
+                b.Append(new string('0', 19));
+            }
+
             b.AppendDinheiro(13, 0); //193-205 Valor do IOF
             b.AppendDinheiro(13, 0); //206-218 Valor Abatimento
             b.AppendNumero(2, titulo.PessoaJuridica() ? "02" : "01"); //219-220
@@ -114,6 +131,32 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(40, Opcoes.Msg2); //352-391
             b.Append(new string(' ', 2)); //392-393
             b.Append("S"); //394-394
+            b.AppendNumero(6, _index++); //395-400
+            b.Append(Environment.NewLine);
+        }
+
+        public void DescontosAdicionais(StringBuilder b, TituloReceber titulo)
+        {
+            TituloReceber.Desconto desconto2 = titulo.Descontos.ElementAt(1);
+            TituloReceber.Desconto desconto3 = titulo.Descontos.ElementAtOrDefault(2);
+
+
+            b.Append("5"); //1-1
+            b.AppendNumero(2, "07"); //2-3
+            b.AppendData(desconto2.DataLimite); //4-9 Data Desconto 2
+            b.AppendDinheiro(17, desconto2.Valor); //10-26 Valor Desconto 2
+
+            if(desconto3 != null)
+            {
+                b.AppendData(desconto3.DataLimite); //27-32 Data Desconto 3
+                b.AppendDinheiro(17, desconto3.Valor); //33-49 Valor Desconto 3
+            }
+            else
+            {
+                b.Append(new string('0', 23));
+            }
+            
+            b.Append(new string(' ', 345)); //50-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
         }
