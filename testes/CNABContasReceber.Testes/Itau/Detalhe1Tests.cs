@@ -63,10 +63,37 @@ namespace CNABContasReceber.Testes.Itau
             Assert.Equal("0000000000022", valor);
         }
 
+        [Fact]
+        public void Escreveu_Data_Desconto_Correto()
+        {
+            var linha = GerarLinhaDetalhe(Titulo2());
+            var valor1 = linha.Slice(174, 179);
+            var valor2 = linha.Slice(354, 359);
+            var valor3 = linha.Slice(373, 378);
+
+            Assert.Equal("021020", valor1);
+            Assert.Equal("041020", valor2);
+            Assert.Equal("000000", valor3);
+        }
+        [Fact]
+        public void Escreveu_Valor_Desconto_Correto()
+        {
+            var linha = GerarLinhaDetalhe(Titulo2());
+            var valor1 = linha.Slice(180, 192);
+            var valor2 = linha.Slice(360, 372);
+            var valor3 = linha.Slice(379, 391);
+
+            Assert.Equal("0000000000100", valor1);
+            Assert.Equal("0000000000050", valor2);
+            Assert.Equal("0000000000000", valor3);
+        }
+        
+
         public static string GerarLinhaDetalhe(TituloReceber titulo)
         {
             var cnab = new BancoItau400(Opcoes());
             var sb = new StringBuilder();
+            titulo.CalcularDescontos(Opcoes());
             cnab.Detalhe1(sb, titulo);
 
             return sb.ToString();
@@ -76,6 +103,9 @@ namespace CNABContasReceber.Testes.Itau
         {
             return new Opcoes
             {
+                Desconto1 = new OpcoesDesconto { DiasDesconto = 0, Porcentagem = 2m},
+                Desconto2 = new OpcoesDesconto { DiasDesconto = 8, Porcentagem = 10m},
+                Desconto3 = new OpcoesDesconto { DiasDesconto = 6, Porcentagem = 5m},
                 CodigoEmpresa = "4321",
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
@@ -117,7 +147,7 @@ namespace CNABContasReceber.Testes.Itau
                 Cep = "05201-210",
                 CpfCnpj = "32.140.856/0001-59",
                 Emissao = new DateTime(2019, 10, 2),
-                Vencimento = new DateTime(2019, 11, 5),
+                Vencimento = new DateTime(2020, 10, 10),
                 EnderecoCompleto = "RUA ALBION 193",
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
