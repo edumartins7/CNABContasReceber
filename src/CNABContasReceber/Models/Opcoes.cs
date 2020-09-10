@@ -15,11 +15,12 @@ namespace CnabContasReceber.Models
         public string RazaoSocial { get; set; }
         public string NumeroAgencia { get; set; }
         public string NumeroContaCorrente { get; set; }
-        public int NumeroConvenio { get; set; }
+        public string NumeroConvenio { get; set; }
         public char DigitoContaCorrente { get; set; }
         public char DigitoAgencia { get; set; }
         public bool BancoEnviaBoleto { get; set; }
         public string Carteira { get; set; }
+        public string VariacaoCarteira { get; set; }
         public bool CobraMulta { get; set; }
         public decimal PercentualMulta { get; set; }
         public decimal PercentualMoraDiaAtraso { get; set; }

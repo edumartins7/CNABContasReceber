@@ -90,10 +90,10 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(17, titulo.NossoNumero); //64-80
             b.Append("0000"); //81-82 & 83-84
             b.Append(new string(' ', 7)); //85-87 & 88-88 & 89-91
-            b.AppendNumero(3, Opcoes.Carteira.Split('/').ElementAt(1)); //92-94
+            b.AppendNumero(3, Opcoes.VariacaoCarteira); //92-94
             b.Append("0000000"); //95-95 & 96-101 
             b.Append(new string(' ', 5)); //102-106
-            b.AppendNumero(2, Opcoes.Carteira.Split('/').ElementAt(0)); //107-108
+            b.AppendNumero(2, Opcoes.Carteira); //107-108
             b.Append("01"); //109-110
             b.AppendNumero(10, titulo.NossoNumero); //111-120
             b.AppendData(titulo.Vencimento); //121-126
