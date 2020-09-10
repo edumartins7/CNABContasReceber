@@ -97,7 +97,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NumeroAgencia = "0989",
                 NumeroContaCorrente = "7177",
                 DigitoContaCorrente = '3',
-                DigitoAgencia = "1",
+                DigitoAgencia = '1',
                 PercentualMoraDiaAtraso = 2m,
                 PercentualMulta = 10m,
                 RazaoSocial = "EMPRESA TAL LTDA"
