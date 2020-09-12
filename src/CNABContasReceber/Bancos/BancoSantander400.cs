@@ -12,7 +12,6 @@ namespace CnabContasReceber.Bancos
     public class BancoSantander400 : IBanco
     {
         private int _index = 1;
-        private int _qtdeTitulos = 0;
         private decimal _valorTotalTitulos = 0;
 
         public BancoSantander400(Opcoes opcoes)
@@ -25,7 +24,6 @@ namespace CnabContasReceber.Bancos
         public string MontarArquivo(IEnumerable<TituloReceber> titulos)
         {
             _index = 1;
-            _qtdeTitulos = titulos.Count();
             _valorTotalTitulos = titulos.Sum(x => x.Valor);
 
             var b = new StringBuilder();
