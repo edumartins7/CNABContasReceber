@@ -75,6 +75,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         {
             var cnab = new BancoDoBrasil400(Opcoes());
             var sb = new StringBuilder();
+            titulo.CalcularDescontos(Opcoes());
             cnab.Detalhe1(sb, titulo);
 
             return sb.ToString();
@@ -88,7 +89,8 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
-                Carteira = "17/098",
+                Carteira = "17",
+                NumeroConvenio = "233",
                 CobraMulta = true,
                 Msg1 = "zazaza",
                 Msg2 = "popopo",

@@ -31,6 +31,7 @@ namespace CnabContasReceber.Bancos
 
             foreach(TituloReceber t in titulos)
             {
+                t.CalcularDescontos(Opcoes);
                 Detalhe1(b, t);
 
                 if (Opcoes.BancoEnviaBoleto)
@@ -73,6 +74,10 @@ namespace CnabContasReceber.Bancos
 
         public void Detalhe1(StringBuilder b, TituloReceber titulo)
         {
+            TituloReceber.Desconto desconto1 = titulo.Descontos.FirstOrDefault();
+            TituloReceber.Desconto desconto2 = titulo.Descontos.ElementAtOrDefault(1);
+            TituloReceber.Desconto desconto3 = titulo.Descontos.ElementAtOrDefault(2);
+
             b.Append("1");//1-1
             b.Append("02"); //2-3
             b.AppendNumero(14, Opcoes.CnpjBeneficiario);//4-17
@@ -100,8 +105,17 @@ namespace CnabContasReceber.Bancos
             b.Append("39"); //157-158 
             b.Append("00"); //159-160 
             b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
-            b.Append("000000"); //174-179 Data Desconto
-            b.AppendDinheiro(13, 0); //180-192 Valor Desconto
+
+            if (desconto1 != null)
+            {
+                b.AppendData(desconto1.DataLimite); //174-179 Data 1° Desconto
+                b.AppendDinheiro(13, desconto1.Valor); //180-192 Valor 1° Desconto
+            }
+            else
+            {
+                b.Append(new string('0', 19));
+            }
+
             b.AppendDinheiro(13, 0); //193-205 Valor do IOF
             b.AppendDinheiro(13, 0); //206-218 Valor Abatimento
             b.AppendNumero(2, titulo.PessoaJuridica() ? "02" : "01"); //219-220
@@ -112,8 +126,32 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(8, titulo.Cep); //327-334 VERIFICAR TEXTO CEP
             b.AppendTexto(15, titulo.Cidade); //335-349
             b.AppendTexto(2, titulo.UF); //350-351
-            b.Append(new string(' ', 34)); //352-381 & 382-385
-            b.Append("00000000 "); //386-391 & 392-393 & 394-394 
+
+            if (desconto2 != null)
+            {
+                b.Append(new string(' ', 2));//352-353
+                b.AppendData(desconto2.DataLimite); //354-359 Data 2° Desconto
+                b.AppendDinheiro(13, desconto2.Valor); //360-372 Valor 2° Desconto
+
+                if (desconto3 != null)
+                {
+                    b.AppendData(desconto3.DataLimite); //373-378 Data 3° Desconto
+                    b.AppendDinheiro(13, desconto3.Valor); //379-391 Valor 3° Desconto
+                }
+                else
+                {
+                    b.Append(new string('0', 19));
+                }
+
+                b.Append(new string(' ', 3)); //392-394 
+
+            }
+            else
+            {
+                b.Append(new string(' ', 34)); //352-381 & 382-385
+                b.Append("00000000 "); //386-391 & 392-393 & 394-394
+            }
+
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
         }

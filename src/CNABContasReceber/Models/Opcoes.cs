@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace CnabContasReceber.Models
 {
     public class Opcoes
@@ -13,15 +15,19 @@ namespace CnabContasReceber.Models
         public string RazaoSocial { get; set; }
         public string NumeroAgencia { get; set; }
         public string NumeroContaCorrente { get; set; }
-        public int NumeroConvenio { get; set; }
+        public string NumeroConvenio { get; set; }
         public char DigitoContaCorrente { get; set; }
         public char DigitoAgencia { get; set; }
         public bool BancoEnviaBoleto { get; set; }
         public string Carteira { get; set; }
+        public string VariacaoCarteira { get; set; }
         public bool CobraMulta { get; set; }
         public decimal PercentualMulta { get; set; }
         public decimal PercentualMoraDiaAtraso { get; set; }
 
+        public OpcoesDesconto Desconto1 { get; set; }
+        public OpcoesDesconto Desconto2 { get; set; }
+        public OpcoesDesconto Desconto3 { get; set; }
 
         public string Msg1 { get; set; }
         public string Msg2 { get; set; }
@@ -48,5 +54,36 @@ namespace CnabContasReceber.Models
     {
         Percentual = 1,
         Valor = 2
+    }
+
+    public class OpcoesDesconto
+    {
+        public int DiasDesconto { get; set; }
+        public decimal Porcentagem { get; set; }
+
+        
+        public TituloReceber.Desconto Calcular(DateTime vencimentoTitulo, decimal valor)
+        {
+            return new TituloReceber.Desconto()
+            {
+                DataLimite = CalcularData(vencimentoTitulo),
+                Valor = CalcularValor(valor)
+            };
+        }
+
+        private DateTime? CalcularData(DateTime vencimentoTitulo)
+        {
+            DateTime d = vencimentoTitulo.AddDays(-DiasDesconto);
+
+            if (d < DateTime.Today || DiasDesconto < 1)
+                return null;
+
+            return d;
+        }
+
+        private decimal CalcularValor(decimal valorTitulo)
+        {
+            return (valorTitulo * Porcentagem) / 100;
+        }
     }
 }

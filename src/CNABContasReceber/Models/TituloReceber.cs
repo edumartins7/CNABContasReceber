@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -21,6 +22,23 @@ namespace CnabContasReceber.Models
         public string Cidade  { get; set; }
         public string UF { get; set; }
 
+        public IEnumerable<Desconto> Descontos { get; private set; }
+
+        public void CalcularDescontos(Opcoes opcoes)
+        {
+            var res = new List<Desconto>();
+
+            if (opcoes.Desconto1 != null)
+                res.Add(opcoes.Desconto1.Calcular(this.Vencimento, this.Valor));
+
+            if (opcoes.Desconto2 != null)
+                res.Add(opcoes.Desconto2.Calcular(this.Vencimento, this.Valor));
+
+            if (opcoes.Desconto3 != null)
+                res.Add(opcoes.Desconto3.Calcular(this.Vencimento, this.Valor));
+
+            Descontos = res.Where(x => x.DataValida());
+        }
 
 
         //dependendo do banco pode vir como "cobrança compartilhada" na documentação
@@ -33,5 +51,19 @@ namespace CnabContasReceber.Models
 
             return semPontuacao.Length >= 14;
         }
+
+        public class Desconto
+        {
+            public DateTime? DataLimite { get; set; }
+            public decimal Valor { get; set; }
+
+            public bool DataValida()
+            {
+                return DataLimite.HasValue && DataLimite > DateTime.Today;
+            }
+
+        }
     }
+
+    
 }
