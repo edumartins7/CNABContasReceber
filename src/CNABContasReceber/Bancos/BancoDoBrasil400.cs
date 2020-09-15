@@ -40,13 +40,10 @@ namespace CnabContasReceber.Bancos
 
                 if (Opcoes.CobrancaCompartilhada)
                 {
-                    if (t.RateioCredito.Count() < 1)
+                    if (t.RateioCredito.Count() < 1 || t.RateioCredito.Count() > 4)
                         throw new ArgumentOutOfRangeException("RateioCredito");
 
-                    foreach (var lote in t.RateioCredito.Batch(4))
-                    {
-                        DetalheRateios(b, t.NossoNumero, lote);
-                    }
+                    DetalheRateios(b, t.NossoNumero, t.RateioCredito);
                 }
 
                 if (t.Descontos.Count() >= 2)
