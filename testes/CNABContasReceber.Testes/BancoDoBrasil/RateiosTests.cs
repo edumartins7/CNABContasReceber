@@ -22,7 +22,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         [Fact]
         public void Tem400Caracteres()
         {
-            Assert.Equal(400, _linhaTitulo2Rateio.Length -2); //o enter pra linha de baixo conta como 2
+            Assert.Equal(400, (_linhaTitulo2Rateio.Length - 2)); //o enter pra linha de baixo conta como 2
         }
 
         [Fact]
