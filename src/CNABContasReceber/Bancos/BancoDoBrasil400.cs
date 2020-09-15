@@ -40,7 +40,13 @@ namespace CnabContasReceber.Bancos
 
                 if (Opcoes.CobrancaCompartilhada)
                 {
-                    throw new NotImplementedException("CobrancaCompartilhada");
+                    if (t.RateioCredito.Count() < 1)
+                        throw new ArgumentOutOfRangeException("RateioCredito");
+
+                    foreach (var lote in t.RateioCredito.Batch(4))
+                    {
+                        DetalheRateios(b, t.NossoNumero, lote);
+                    }
                 }
 
                 if (t.Descontos.Count() >= 2)
@@ -135,6 +141,25 @@ namespace CnabContasReceber.Bancos
             b.Append(Environment.NewLine);
         }
 
+        public void DetalheRateios(StringBuilder b, string nossoNumero, IEnumerable<RateioCredito> rateios)
+        {
+            b.Append('2'); //1-1
+            b.AppendNumero(17, nossoNumero);//2-18
+
+            for (int i = 0; i < 4; i++)
+            {
+                EscreverRateioCredito(b, rateios.ElementAtOrDefault(i)); //19-334
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                EscreverDocumentoFavorecido(b, rateios.ElementAtOrDefault(i)); //19-334
+            }
+
+            b.AppendNumero(6, _index++); //395-400
+            b.Append(Environment.NewLine);
+        }
+
         public void DescontosAdicionais(StringBuilder b, TituloReceber titulo)
         {
             TituloReceber.Desconto desconto2 = titulo.Descontos.ElementAt(1);
@@ -171,6 +196,44 @@ namespace CnabContasReceber.Bancos
         public string NomearArquivo(DateTime? dt = null)
         {
             throw new NotImplementedException();
+        }
+
+        private void EscreverRateioCredito(StringBuilder b, RateioCredito rat)
+        {
+            if (rat != null)
+            {
+                b.Append("001"); //Banco para Credito
+                b.Append(new string('0', 3)); //Câmara de Compensação
+                b.AppendNumero(4, rat.AgenciaSemDigito); //Pref. Agencia para Credito
+                b.Append(rat.DigitoAgencia); //DV-Prefixo Ag. Credito
+                b.AppendNumero(11, rat.ContaCorrente); //Conta para Credito
+                b.Append(rat.DigitoContaCorrente); //DV-Conta para Credito
+                b.AppendTexto(30, Opcoes.RazaoSocial); //Nome do Favorecido
+                b.AppendDinheiro(13, rat.ValorRateio); //Valor para Partilha
+                b.Append(new string(' ', 13)); //Brancos
+            }
+            else
+            {
+                b.Append(new string('0', 10));
+                b.Append(' ');
+                b.Append(new string('0', 11));
+                b.Append(new string(' ', 31));
+                b.Append(new string('0', 13));
+                b.Append(new string(' ', 13));
+            }
+        }
+
+        private void EscreverDocumentoFavorecido(StringBuilder b, RateioCredito rat)
+        {
+            if (rat != null)
+            {
+                b.Append('4'); //Tipo de documento do favorecido
+                b.AppendTexto(14, rat.CnpjRecebedor); //Numero do documento do favorecido
+            }
+            else
+            {
+                b.Append(new string('0', 15));
+            }
         }
     }
 }

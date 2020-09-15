@@ -11,6 +11,6 @@
         public string ContaCorrente { get; set; }
         public char DigitoContaCorrente { get; set; }
         public decimal ValorRateio { get; set; } //pode ser um percentual ou o valor em dinheiro. depende doq for configurado em Opcoes.
-
+        public string CnpjRecebedor { get; set; }
     }
 }
