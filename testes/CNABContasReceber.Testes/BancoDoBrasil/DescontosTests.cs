@@ -34,7 +34,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var data1 = linha.Slice(4, 9);
             var data2 = linha.Slice(27, 32);
 
-            Assert.Equal("170920", data1);
+            Assert.Equal("211121", data1);
             Assert.Equal("000000", data2);
 
         }
@@ -94,7 +94,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 Cep = "05201-210",
                 CpfCnpj = "25840272833",
                 Emissao = new DateTime(2020, 1, 2),
-                Vencimento = new DateTime(2020, 9, 21),
+                Vencimento = new DateTime(2021, 11, 25),
                 EnderecoCompleto = "RUA ALBION 193",
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
