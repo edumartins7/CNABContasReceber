@@ -109,6 +109,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             return new TituloReceber()
             {
                 Cep = "05201-210",
+                Cidade = "São Paulo",
                 CpfCnpj = "25840272833",
                 Emissao = new DateTime(2020, 1, 2),
                 Vencimento = new DateTime(2020, 5, 15),
