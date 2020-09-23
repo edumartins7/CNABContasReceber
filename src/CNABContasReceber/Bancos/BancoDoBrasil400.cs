@@ -90,7 +90,7 @@ namespace CnabContasReceber.Bancos
             b.Append(Opcoes.DigitoContaCorrente); //31-31
             b.AppendNumero(7, Opcoes.NumeroConvenio); //32-38
             b.AppendTexto(25, titulo.NumeroTitulo); //39-63
-            b.AppendNumero(17, titulo.NossoNumero); //64-80
+            b.AppendTexto(17, FazerNossoNumero(titulo.NossoNumero)); //64-80 
             b.Append("0000"); //81-82 & 83-84
             b.Append(new string(' ', 7)); //85-87 & 88-88 & 89-91
             b.AppendNumero(3, Opcoes.VariacaoCarteira); //92-94
@@ -133,7 +133,7 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(2, titulo.UF); //350-351
             b.AppendTexto(40, Opcoes.Msg2); //352-391
             b.Append(new string(' ', 2)); //392-393
-            b.Append("S"); //394-394
+            b.Append(" "); //394-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
         }
@@ -195,6 +195,8 @@ namespace CnabContasReceber.Bancos
             throw new NotImplementedException();
         }
 
+        
+
         private void EscreverRateioCredito(StringBuilder b, RateioCredito rat)
         {
             if (rat != null)
@@ -231,6 +233,21 @@ namespace CnabContasReceber.Bancos
             {
                 b.Append(new string('0', 15));
             }
+        }
+        private string FazerNossoNumero(string nossoNumero)
+        {
+            var texto = new StringBuilder();
+
+            if (Opcoes.Carteira == "11" || Opcoes.Carteira == "31" || Opcoes.Carteira == "51")
+            {
+                texto.Append(new string('0', 17));
+            }
+            else if (Opcoes.Carteira == "12" || Opcoes.Carteira == "35" || Opcoes.Carteira == "17")
+            {
+                texto.AppendNumero(7, nossoNumero);
+                texto.AppendNumero(10, _index);
+            }
+            return (texto.ToString());
         }
     }
 }
