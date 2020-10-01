@@ -67,8 +67,19 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         {
             var linha = GerarLinhaDetalhe(Titulo1());
             var valor = linha.Slice(161, 173);
+            
 
             Assert.Equal("0000000002125", valor);
+        }
+
+        [Fact]
+        public void Escreveu_NossoNumero_Correto()
+        {
+            var linha = GerarLinhaDetalhe(Titulo1());
+            var nossoNumero = linha.Slice(64, 80);
+            
+
+            Assert.Equal("23232130000234645", nossoNumero);
         }
 
         public static string GerarLinhaDetalhe(TituloReceber titulo)
@@ -90,7 +101,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
                 Carteira = "17",
-                NumeroConvenio = "233",
+                NumeroConvenio = "2323213",
                 CobraMulta = true,
                 Msg1 = "zazaza",
                 Msg2 = "popopo",

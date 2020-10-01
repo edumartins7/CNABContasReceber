@@ -90,7 +90,7 @@ namespace CnabContasReceber.Bancos
             b.Append(Opcoes.DigitoContaCorrente); //31-31
             b.AppendNumero(7, Opcoes.NumeroConvenio); //32-38
             b.AppendTexto(25, titulo.NumeroTitulo); //39-63
-            b.AppendTexto(17, FazerNossoNumero(titulo.NossoNumero)); //64-80 
+            b.AppendTexto(17, FazerNossoNumero(Opcoes.NumeroConvenio, titulo.NossoNumero)); //64-80 
             b.Append("0000"); //81-82 & 83-84
             b.Append(new string(' ', 7)); //85-87 & 88-88 & 89-91
             b.AppendNumero(3, Opcoes.VariacaoCarteira); //92-94
@@ -234,7 +234,7 @@ namespace CnabContasReceber.Bancos
                 b.Append(new string('0', 15));
             }
         }
-        private string FazerNossoNumero(string nossoNumero)
+        private string FazerNossoNumero(string convenio, string nossoNumero)
         {
             var texto = new StringBuilder();
 
@@ -242,10 +242,10 @@ namespace CnabContasReceber.Bancos
             {
                 texto.Append(new string('0', 17));
             }
-            else if (Opcoes.Carteira == "12" || Opcoes.Carteira == "35" || Opcoes.Carteira == "17")
+            else if (Opcoes.Carteira == "12" || Opcoes.Carteira == "15" || Opcoes.Carteira == "17")
             {
-                texto.AppendNumero(7, nossoNumero);
-                texto.AppendNumero(10, _index);
+                texto.AppendNumero(7, convenio);
+                texto.AppendNumero(10, nossoNumero);
             }
             return (texto.ToString());
         }
