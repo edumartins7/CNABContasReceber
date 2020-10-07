@@ -188,7 +188,6 @@ namespace CnabContasReceber.Bancos
             b.Append("9"); //1=1
             b.Append(new string(' ', 393)); //002-394
             b.AppendNumero(6, _index); //395-400
-            b.Append(Environment.NewLine);
         }
 
         public string NomearArquivo(DateTime? dt = null)
