@@ -185,6 +185,7 @@ namespace CnabContasReceber.Bancos
             b.Append("9");
             b.Append(new string(' ', 393));
             b.AppendNumero(6, _index++);
+            b.Append(Environment.NewLine);
         }
 
 
