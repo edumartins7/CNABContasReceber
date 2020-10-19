@@ -3,6 +3,7 @@ using CnabContasReceber.Models;
 using System;
 using System.Text;
 using Xunit;
+using static CnabContasReceber.Models.TituloReceber;
 
 namespace CNABContasReceber.Testes.Itau
 {
@@ -71,8 +72,8 @@ namespace CNABContasReceber.Testes.Itau
             var valor2 = linha.Slice(354, 359);
             var valor3 = linha.Slice(373, 378);
 
-            Assert.Equal("021020", valor1);
-            Assert.Equal("041020", valor2);
+            Assert.Equal("021021", valor1);
+            Assert.Equal("041021", valor2);
             Assert.Equal("000000", valor3);
         }
         [Fact]
@@ -93,7 +94,7 @@ namespace CNABContasReceber.Testes.Itau
         {
             var cnab = new BancoItau400(Opcoes());
             var sb = new StringBuilder();
-            titulo.CalcularDescontos(Opcoes());
+            titulo.CalcularDescontos(titulo);
             cnab.Detalhe1(sb, titulo);
 
             return sb.ToString();
@@ -103,9 +104,7 @@ namespace CNABContasReceber.Testes.Itau
         {
             return new Opcoes
             {
-                Desconto1 = new OpcoesDesconto { DiasDesconto = 0, Porcentagem = 2m},
-                Desconto2 = new OpcoesDesconto { DiasDesconto = 8, Porcentagem = 10m},
-                Desconto3 = new OpcoesDesconto { DiasDesconto = 6, Porcentagem = 5m},
+                
                 CodigoEmpresa = "4321",
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
@@ -135,7 +134,10 @@ namespace CNABContasReceber.Testes.Itau
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 10.99m
+                Valor = 10.99m,
+                Desconto1 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 2m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 8, Porcentagem = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 6, Porcentagem = 5m }
             };
         }
 
@@ -147,12 +149,15 @@ namespace CNABContasReceber.Testes.Itau
                 Cep = "05201-210",
                 CpfCnpj = "32.140.856/0001-59",
                 Emissao = new DateTime(2019, 10, 2),
-                Vencimento = new DateTime(2020, 10, 10),
+                Vencimento = new DateTime(2021, 10, 10),
                 EnderecoCompleto = "RUA ALBION 193",
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 10m
+                Valor = 10m,
+                Desconto1 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 2m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 8, Porcentagem = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 6, Porcentagem = 5m }
             };
         }
 
@@ -168,10 +173,12 @@ namespace CNABContasReceber.Testes.Itau
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 1938201390.99000m
+                Valor = 1938201390.99000m,
+                Desconto1 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 2m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 8, Porcentagem = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 6, Porcentagem = 5m }
             };
         }
-
 
         public static TituloReceber Titulo4()
         {

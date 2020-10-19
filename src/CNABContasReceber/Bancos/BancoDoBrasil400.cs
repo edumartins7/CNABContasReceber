@@ -31,7 +31,7 @@ namespace CnabContasReceber.Bancos
 
             foreach (TituloReceber t in titulos)
             {
-                t.CalcularDescontos(Opcoes);
+                t.CalcularDescontos(t);
 
                 Detalhe1(b, t);
 

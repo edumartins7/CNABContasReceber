@@ -3,6 +3,7 @@ using CnabContasReceber.Models;
 using System;
 using System.Text;
 using Xunit;
+using static CnabContasReceber.Models.TituloReceber;
 
 namespace CNABContasReceber.Testes.BancoDoBrasil
 {
@@ -56,7 +57,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var cnab = new BancoDoBrasil400(opcoes);
             var sb = new StringBuilder();
             var t = Titulo();
-            t.CalcularDescontos(opcoes);
+            t.CalcularDescontos(t);
             cnab.DescontosAdicionais(sb, t);
 
             return sb.ToString();
@@ -66,25 +67,18 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         {
             return new Opcoes
             {
-                Desconto1 = new OpcoesDesconto { DiasDesconto = 5, Porcentagem = 11m },
-                Desconto2 = new OpcoesDesconto { DiasDesconto = 4, Porcentagem = 10m },
-                Desconto3 = new OpcoesDesconto { DiasDesconto = 0, Porcentagem = 20m }
             };
         }
         public static Opcoes Opcoes2()
         {
             return new Opcoes
             {
-                Desconto2 = new OpcoesDesconto { DiasDesconto = 2, Porcentagem = 10m },
-                Desconto3 = new OpcoesDesconto { DiasDesconto = 1, Porcentagem = 22m }
             };
         }
         public static Opcoes Opcoes3()
         {
             return new Opcoes
             {
-                Desconto2 = new OpcoesDesconto { DiasDesconto = 4, Porcentagem = 0m },
-                Desconto3 = new OpcoesDesconto { DiasDesconto = 3, Porcentagem = 33m }
             };
         }
         public static TituloReceber Titulo()
@@ -99,7 +93,10 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 1062.33m
+                Valor = 1062.33m,
+                Desconto1 = new DescontosTitulo { DiasDesconto = 5, Porcentagem = 11m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 4, Porcentagem = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 20m }
             };
         }
 
