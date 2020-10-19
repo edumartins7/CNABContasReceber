@@ -72,9 +72,9 @@ namespace CNABContasReceber.Testes.Itau
             var valor2 = linha.Slice(354, 359);
             var valor3 = linha.Slice(373, 378);
 
-            Assert.Equal("021021", valor1);
-            Assert.Equal("041021", valor2);
-            Assert.Equal("000000", valor3);
+            Assert.Equal("101021", valor1);
+            Assert.Equal("021021", valor2);
+            Assert.Equal("041021", valor3);
         }
         [Fact]
         public void Escreveu_Valor_Desconto_Correto()
@@ -84,9 +84,9 @@ namespace CNABContasReceber.Testes.Itau
             var valor2 = linha.Slice(360, 372);
             var valor3 = linha.Slice(379, 391);
 
-            Assert.Equal("0000000000100", valor1);
-            Assert.Equal("0000000000050", valor2);
-            Assert.Equal("0000000000000", valor3);
+            Assert.Equal("0000000000020", valor1);
+            Assert.Equal("0000000000100", valor2);
+            Assert.Equal("0000000000050", valor3);
         }
         
 

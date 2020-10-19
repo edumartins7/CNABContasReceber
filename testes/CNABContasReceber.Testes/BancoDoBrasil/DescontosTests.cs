@@ -36,8 +36,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var data2 = linha.Slice(27, 32);
 
             Assert.Equal("211121", data1);
-            Assert.Equal("000000", data2);
-
+            Assert.Equal("251121", data2);
         }
 
         [Fact]
@@ -48,7 +47,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var valor2 = linha.Slice(33, 49);
 
             Assert.Equal("00000000000010623", valor);
-            Assert.Equal("00000000000000000", valor2);
+            Assert.Equal("00000000000021247", valor2);
 
         }
 

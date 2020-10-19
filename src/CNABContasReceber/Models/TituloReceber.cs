@@ -78,17 +78,20 @@ namespace CnabContasReceber.Models
         {
             return new Desconto()
             {
-                DataLimite = CalcularData(vencimentoTitulo, desconto.DiasDesconto),
+                DataLimite = CalcularData(vencimentoTitulo, desconto.DiasDesconto, desconto.Porcentagem),
                 Valor = CalcularValor(valor, desconto.Porcentagem)
             };
         }
 
-        private DateTime? CalcularData(DateTime vencimentoTitulo, int diasDesconto)
+        private DateTime? CalcularData(DateTime vencimentoTitulo, int diasDesconto, decimal porcentagem)
         {
             DateTime d = vencimentoTitulo.AddDays(-diasDesconto);
 
-            if (d < DateTime.Today || diasDesconto < 1)
+            if (d < DateTime.Today || porcentagem <= 0)
                 return null;
+
+            if (diasDesconto == 0)
+                return vencimentoTitulo;
 
             return d;
         }
