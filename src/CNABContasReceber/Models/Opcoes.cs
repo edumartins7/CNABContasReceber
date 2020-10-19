@@ -25,9 +25,7 @@ namespace CnabContasReceber.Models
         public decimal PercentualMulta { get; set; }
         public decimal PercentualMoraDiaAtraso { get; set; }
 
-        public OpcoesDesconto Desconto1 { get; set; }
-        public OpcoesDesconto Desconto2 { get; set; }
-        public OpcoesDesconto Desconto3 { get; set; }
+        
 
         public string Msg1 { get; set; }
         public string Msg2 { get; set; }
@@ -61,7 +59,7 @@ namespace CnabContasReceber.Models
         public int DiasDesconto { get; set; }
         public decimal Porcentagem { get; set; }
 
-        
+
         public TituloReceber.Desconto Calcular(DateTime vencimentoTitulo, decimal valor)
         {
             return new TituloReceber.Desconto()
