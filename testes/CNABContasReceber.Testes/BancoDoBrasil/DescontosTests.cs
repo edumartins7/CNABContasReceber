@@ -46,8 +46,8 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var valor = linha.Slice(10, 26);
             var valor2 = linha.Slice(33, 49);
 
-            Assert.Equal("00000000000010623", valor);
-            Assert.Equal("00000000000021247", valor2);
+            Assert.Equal("00000000000001000", valor);
+            Assert.Equal("00000000000002000", valor2);
 
         }
 
@@ -93,9 +93,9 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 1062.33m,
-                Desconto1 = new DescontosTitulo { DiasDesconto = 5, Porcentagem = 11m },
-                Desconto2 = new DescontosTitulo { DiasDesconto = 4, Porcentagem = 10m },
-                Desconto3 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 20m }
+                Desconto1 = new DescontosTitulo { DiasDesconto = 5, ValorDesconto = 11m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 4, ValorDesconto = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 0, ValorDesconto = 20m }
             };
         }
 
