@@ -84,9 +84,9 @@ namespace CNABContasReceber.Testes.Itau
             var valor2 = linha.Slice(360, 372);
             var valor3 = linha.Slice(379, 391);
 
-            Assert.Equal("0000000000020", valor1);
-            Assert.Equal("0000000000100", valor2);
-            Assert.Equal("0000000000050", valor3);
+            Assert.Equal("0000000000200", valor1);
+            Assert.Equal("0000000001000", valor2);
+            Assert.Equal("0000000000500", valor3);
         }
         
 
@@ -135,9 +135,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10.99m,
-                Desconto1 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 2m },
-                Desconto2 = new DescontosTitulo { DiasDesconto = 8, Porcentagem = 10m },
-                Desconto3 = new DescontosTitulo { DiasDesconto = 6, Porcentagem = 5m }
+                Desconto1 = new DescontosTitulo { DiasDesconto = 0, ValorDesconto = 2m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 8, ValorDesconto = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 6, ValorDesconto = 5m }
             };
         }
 
@@ -155,9 +155,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10m,
-                Desconto1 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 2m },
-                Desconto2 = new DescontosTitulo { DiasDesconto = 8, Porcentagem = 10m },
-                Desconto3 = new DescontosTitulo { DiasDesconto = 6, Porcentagem = 5m }
+                Desconto1 = new DescontosTitulo { DiasDesconto = 0, ValorDesconto = 2m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 8, ValorDesconto = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 6, ValorDesconto = 5m }
             };
         }
 
@@ -174,9 +174,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 1938201390.99000m,
-                Desconto1 = new DescontosTitulo { DiasDesconto = 0, Porcentagem = 2m },
-                Desconto2 = new DescontosTitulo { DiasDesconto = 8, Porcentagem = 10m },
-                Desconto3 = new DescontosTitulo { DiasDesconto = 6, Porcentagem = 5m }
+                Desconto1 = new DescontosTitulo { DiasDesconto = 0, ValorDesconto = 2m },
+                Desconto2 = new DescontosTitulo { DiasDesconto = 8, ValorDesconto = 10m },
+                Desconto3 = new DescontosTitulo { DiasDesconto = 6, ValorDesconto = 5m }
             };
         }
 

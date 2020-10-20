@@ -33,13 +33,13 @@ namespace CnabContasReceber.Models
             var res = new List<Desconto>();
 
             if (titulo.Desconto1 != null)
-                res.Add(Calcular(this.Vencimento, this.Valor, Desconto1));
+                res.Add(Calcular(this.Vencimento, Desconto1));
 
             if (titulo.Desconto2 != null)
-                res.Add(Calcular(this.Vencimento, this.Valor, Desconto2));
+                res.Add(Calcular(this.Vencimento, Desconto2));
 
             if (titulo.Desconto3 != null)
-                res.Add(Calcular(this.Vencimento, this.Valor, Desconto3));
+                res.Add(Calcular(this.Vencimento, Desconto3));
 
             Descontos = res.Where(x => x.DataValida());
         }
@@ -71,36 +71,30 @@ namespace CnabContasReceber.Models
         public class DescontosTitulo
         {
             public int DiasDesconto { get; set; }
-            public decimal Porcentagem { get; set; }
+            public decimal ValorDesconto { get; set; }
         }
 
-        public Desconto Calcular(DateTime vencimentoTitulo, decimal valor, DescontosTitulo desconto)
+        public Desconto Calcular(DateTime vencimentoTitulo, DescontosTitulo desconto)
         {
             return new Desconto()
             {
-                DataLimite = CalcularData(vencimentoTitulo, desconto.DiasDesconto, desconto.Porcentagem),
-                Valor = CalcularValor(valor, desconto.Porcentagem)
+                DataLimite = CalcularData(vencimentoTitulo, desconto),
+                Valor = desconto.ValorDesconto
             };
         }
 
-        private DateTime? CalcularData(DateTime vencimentoTitulo, int diasDesconto, decimal porcentagem)
+        private DateTime? CalcularData(DateTime vencimentoTitulo, DescontosTitulo descontos)
         {
-            DateTime d = vencimentoTitulo.AddDays(-diasDesconto);
+            DateTime d = vencimentoTitulo.AddDays(-descontos.DiasDesconto);
 
-            if (d < DateTime.Today || porcentagem <= 0)
+            if (d < DateTime.Today || descontos.ValorDesconto <= 0)
                 return null;
 
-            if (diasDesconto == 0)
+            if (descontos.DiasDesconto == 0)
                 return vencimentoTitulo;
 
             return d;
         }
-
-        private decimal CalcularValor(decimal valorTitulo, decimal porcentagemDesconto)
-        {
-            return (valorTitulo * porcentagemDesconto) / 100;
-        }
-
     }
 
     
