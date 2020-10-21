@@ -23,7 +23,7 @@ namespace CnabContasReceber.Models
         public string VariacaoCarteira { get; set; }
         public bool CobraMulta { get; set; }
         public decimal PercentualMulta { get; set; }
-        public int DiasAposVencimento { get; set; }
+        public int DiasAdicionaisAposVencimento { get; set; }
         public decimal PercentualMoraDiaAtraso { get; set; }
 
         

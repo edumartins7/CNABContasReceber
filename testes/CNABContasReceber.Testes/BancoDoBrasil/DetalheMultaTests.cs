@@ -87,7 +87,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 DigitoAgencia = '1',
                 PercentualMoraDiaAtraso = 2m,
                 PercentualMulta = 10m,
-                DiasAposVencimento = 30,
+                DiasAdicionaisAposVencimento = 30,
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }

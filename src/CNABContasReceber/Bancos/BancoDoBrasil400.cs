@@ -149,7 +149,7 @@ namespace CnabContasReceber.Bancos
             b.AppendData(titulo.Vencimento.AddDays(1)); //5-10
             b.Append(new string('0', 5)); //11-15
             b.AppendDinheiro(7, Opcoes.PercentualMulta); //14-22
-            b.AppendNumero(3, Opcoes.DiasAposVencimento); //23-25
+            b.AppendNumero(3, Opcoes.DiasAdicionaisAposVencimento); //23-25
             b.Append(new string('0', 369)); //26-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
