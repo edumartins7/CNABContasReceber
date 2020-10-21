@@ -35,6 +35,9 @@ namespace CnabContasReceber.Bancos
 
                 Detalhe1(b, t);
 
+                if (Opcoes.CobraMulta)
+                    DetalheMulta(b, t);
+
                 if (Opcoes.BancoEnviaBoleto)
                     throw new NotImplementedException("BancoEnviaBoleto");
 
@@ -107,7 +110,7 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(2, 1); //148-149
             b.Append("N"); //150-150
             b.AppendData(titulo.Emissao); //151-156
-            b.Append("0700"); //157-158 & 159-160
+            b.Append("0100"); //157-158 & 159-160
             b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
 
             if(desconto1 != null)
@@ -131,9 +134,23 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(8, titulo.Cep); //327-334 VERIFICAR TEXTO CEP
             b.AppendTexto(15, titulo.Cidade); //335-349
             b.AppendTexto(2, titulo.UF); //350-351
-            b.AppendTexto(40, Opcoes.Msg2); //352-391
+            b.AppendTexto(40, Opcoes.Msg1); //352-391
             b.Append(new string(' ', 2)); //392-393
             b.Append(" "); //394-394
+            b.AppendNumero(6, _index++); //395-400
+            b.Append(Environment.NewLine);
+        }
+
+        public void DetalheMulta(StringBuilder b, TituloReceber titulo)
+        {
+            b.Append('5'); //1-1
+            b.Append("99");//2-3
+            b.Append('2'); //4-4
+            b.AppendData(titulo.Vencimento.AddDays(1)); //5-10
+            b.Append(new string('0', 5)); //11-15
+            b.AppendDinheiro(7, Opcoes.PercentualMulta); //14-22
+            b.AppendNumero(3, Opcoes.DiasAdicionaisAposVencimento); //23-25
+            b.Append(new string('0', 369)); //26-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
         }

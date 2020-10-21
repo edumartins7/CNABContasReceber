@@ -6,14 +6,14 @@ using Xunit;
 
 namespace CNABContasReceber.Testes.BancoDoBrasil
 {
-    public class Detalhe1Tests
+    public class DetalheMultaTests
     {
         private string _linha1;
         private string _linha2;
         private string _linha3;
         private string _linha4;
 
-        public Detalhe1Tests()
+        public DetalheMultaTests()
         {
             _linha1 = GerarLinhaDetalhe(Titulo1());
             _linha2 = GerarLinhaDetalhe(Titulo2());
@@ -31,64 +31,31 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         }
 
         [Fact]
-        public void Escreveu_Numero_Titulo_Correto()
-        {
-            var linha = GerarLinhaDetalhe(Titulo1());
-            var valor = linha.Slice(39, 43);
-
-            Assert.Equal("12345", valor);
-        }
-
-        [Fact]
-        public void Escreveu_Valor_Correto()
-        {
-            var valor1 = _linha1.Slice(127, 139);
-            var valor2 = _linha2.Slice(127, 139);
-            var valor3 = _linha3.Slice(127, 139);
-            var valor4 = _linha4.Slice(127, 139);
-
-            Assert.Equal("0000000106233", valor1);
-            Assert.Equal("0000000001000", valor2);
-            Assert.Equal("0193820139099", valor3);
-            Assert.Equal("0000000000099", valor4);
-        }
-
-        [Fact]
         public void Escreveu_Vencimento_Correto()
         {
             var linha = GerarLinhaDetalhe(Titulo1());
-            var valor = linha.Slice(121, 126);
+            var data = linha.Slice(5, 10);
 
-            Assert.Equal("150520", valor);
+            Assert.Equal("160520", data);
         }
 
         [Fact]
-        public void Escreveu_Mora_Correta()
+        public void Escreveu_Multa_Correta()
         {
             var linha = GerarLinhaDetalhe(Titulo1());
-            var valor = linha.Slice(161, 173);
+            var valor = linha.Slice(11, 22);
             
 
-            Assert.Equal("0000000002125", valor);
+            Assert.Equal("000000001000", valor);
         }
 
         [Fact]
-        public void Escreveu_NossoNumero_Correto()
+        public void Escreveu_QuantidadeDias_Correta()
         {
             var linha = GerarLinhaDetalhe(Titulo1());
-            var nossoNumero = linha.Slice(64, 80);
-            
+            var quantidadeDias = linha.Slice(23, 25);
 
-            Assert.Equal("23232130000234645", nossoNumero);
-        }
-        [Fact]
-        public void Escreveu_Mensagem_Correta()
-        {
-            var linha = GerarLinhaDetalhe(Titulo1());
-            var mensagem = linha.Slice(352, 391);
-            
-
-            Assert.Equal("ZAZAZA" + new string(' ', 34), mensagem);
+            Assert.Equal("030", quantidadeDias);
         }
 
         public static string GerarLinhaDetalhe(TituloReceber titulo)
@@ -96,7 +63,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var cnab = new BancoDoBrasil400(Opcoes());
             var sb = new StringBuilder();
             titulo.CalcularDescontos(titulo);
-            cnab.Detalhe1(sb, titulo);
+            cnab.DetalheMulta(sb, titulo);
 
             return sb.ToString();
         }
@@ -120,6 +87,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 DigitoAgencia = '1',
                 PercentualMoraDiaAtraso = 2m,
                 PercentualMulta = 10m,
+                DiasAdicionaisAposVencimento = 30,
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
