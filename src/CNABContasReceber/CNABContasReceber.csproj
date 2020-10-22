@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Eduardo Martins</Authors>
-    <Version>1.4.6</Version>
+    <Version>1.4.7</Version>
   </PropertyGroup>
 
 </Project>
