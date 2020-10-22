@@ -32,7 +32,11 @@ namespace CnabContasReceber.Bancos
             foreach(TituloReceber t in titulos)
             {
                 t.CalcularDescontos(t);
+
                 Detalhe1(b, t);
+
+                if (Opcoes.CobraMulta)
+                    Detalhe2(b, t);
 
                 if (Opcoes.BancoEnviaBoleto)
                     throw new NotImplementedException("BancoEnviaBoleto");
@@ -152,6 +156,17 @@ namespace CnabContasReceber.Bancos
                 b.Append("00000000 "); //386-391 & 392-393 & 394-394
             }
 
+            b.AppendNumero(6, _index++); //395-400
+            b.Append(Environment.NewLine);
+        }
+
+        public void Detalhe2(StringBuilder b, TituloReceber titulo)
+        {
+            b.Append('2'); //1-1
+            b.Append('2'); //2-2 porcentagem
+            b.AppendData(titulo.Vencimento.AddDays(1), "ddMMaaaa"); //3-10
+            b.AppendDinheiro(13, Opcoes.PercentualMulta); //11-23
+            b.Append(new string(' ', 370)); //24-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
         }
