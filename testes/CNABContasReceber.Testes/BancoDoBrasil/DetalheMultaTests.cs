@@ -78,16 +78,12 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 BancoEnviaBoleto = false,
                 Carteira = "17",
                 NumeroConvenio = "2323213",
-                CobraMulta = true,
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "0989",
                 NumeroContaCorrente = "7177",
                 DigitoContaCorrente = '3',
                 DigitoAgencia = '1',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 10m,
-                DiasAdicionaisAposVencimento = 30,
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
@@ -105,7 +101,11 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 1062.33m
+                Valor = 1062.33m,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
+                DiasAdicionaisAposVencimento = 30,
+                CobraMulta = true
             };
         }
 
@@ -122,7 +122,11 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 10m
+                Valor = 10m,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
+                DiasAdicionaisAposVencimento = 30,
+                CobraMulta = true
             };
         }
 
@@ -138,7 +142,11 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 1938201390.99000m
+                Valor = 1938201390.99000m,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
+                DiasAdicionaisAposVencimento = 30,
+                CobraMulta = true
             };
         }
 

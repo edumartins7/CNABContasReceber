@@ -100,15 +100,12 @@ namespace CNABContasReceber.Testes.Sicredi
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
-                Carteira = "1",
-                CobraMulta = true,
+                Carteira = "1",                
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "0727",
                 NumeroContaCorrente = "76584",
                 DigitoContaCorrente = '8',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 10m,
                 RazaoSocial = "EMPRESA TAL LTDA",
                 CodigoUaSicredi = "17", 
                 CnpjBeneficiario = ""
@@ -127,7 +124,10 @@ namespace CNABContasReceber.Testes.Sicredi
                 NomePagador = "EDUARDO MAR MOR",
                 NossoNumero = "20200001",
                 NumeroTitulo = "12345",
-                Valor = 1062.33m
+                Valor = 1062.33m,
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
             };
         }
 
@@ -144,7 +144,10 @@ namespace CNABContasReceber.Testes.Sicredi
                 NomePagador = "EDUARDO MAR MOR ",
                 NossoNumero = "20200002",
                 NumeroTitulo = "12345",
-                Valor = 99.99m
+                Valor = 99.99m,
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
             };
         }
 

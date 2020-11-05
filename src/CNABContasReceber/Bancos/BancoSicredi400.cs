@@ -88,7 +88,7 @@ namespace CnabContasReceber.Bancos
             b.Append("00"); //77-78
             b.Append(new string(' ', 4)); //79-82
             b.Append(new string('0', 10)); //83-92
-            b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //93-96
+            b.AppendNumero(4, Math.Round(titulo.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //93-96
             b.Append(new string(' ', 12)); //97-108
             b.Append("01"); //109-110
             b.AppendTexto(10, titulo.NumeroTitulo); //111-120
@@ -99,7 +99,7 @@ namespace CnabContasReceber.Bancos
             b.AppendData(titulo.Emissao); //151-156
             b.Append("00"); //157-158
             b.Append("00"); //159-160
-            b.AppendNumero(13, Math.Round(Opcoes.PercentualMoraDiaAtraso, 2).ToString("#.00", CultureInfo.InvariantCulture)); //161-173
+            b.AppendNumero(13, Math.Round(titulo.PercentualMoraDiaAtraso, 2).ToString("#.00", CultureInfo.InvariantCulture)); //161-173
             b.Append(new string('0', 6)); //174-179
             b.Append(new string('0', 13)); //180-192
             b.Append("00"); //193-194

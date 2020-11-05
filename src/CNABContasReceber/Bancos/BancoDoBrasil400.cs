@@ -35,7 +35,7 @@ namespace CnabContasReceber.Bancos
 
                 Detalhe1(b, t);
 
-                if (Opcoes.CobraMulta)
+                if (t.CobraMulta)
                     DetalheMulta(b, t);
 
                 if (Opcoes.BancoEnviaBoleto)
@@ -114,7 +114,7 @@ namespace CnabContasReceber.Bancos
                 b.Append("0600"); //157-158 & 159-160
             else
                 b.Append("0100"); //157-158 & 159-160
-            b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
+            b.AppendDinheiro(13, Math.Round(titulo.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
 
             if(desconto1 != null)
             {
@@ -155,8 +155,8 @@ namespace CnabContasReceber.Bancos
             b.Append('2'); //4-4
             b.AppendData(titulo.Vencimento.AddDays(1)); //5-10
             b.Append(new string('0', 5)); //11-15
-            b.AppendDinheiro(7, Opcoes.PercentualMulta); //14-22
-            b.AppendNumero(3, Opcoes.DiasAdicionaisAposVencimento); //23-25
+            b.AppendDinheiro(7, titulo.PercentualMulta); //14-22
+            b.AppendNumero(3, titulo.DiasAdicionaisAposVencimento); //23-25
             b.Append(new string('0', 369)); //26-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
