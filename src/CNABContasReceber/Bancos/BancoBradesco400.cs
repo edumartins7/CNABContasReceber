@@ -78,8 +78,8 @@ namespace CnabContasReceber.Bancos
             b.Append(Opcoes.DigitoContaCorrente);//37-37
             b.AppendNumero(25, titulo.NumeroTitulo); //38-62
             b.Append("000"); //63-65
-            b.Append(Opcoes.CobraMulta ? "2" : "0"); //66-66
-            b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //67-70
+            b.Append(titulo.CobraMulta(Opcoes) ? "2" : "0"); //66-66
+            b.AppendNumero(4, Math.Round(titulo.CalculaMulta(Opcoes), 2).ToString("#.00", CultureInfo.InvariantCulture)); //67-70
             b.AppendNumero(11, titulo.NossoNumero); //71-82
             b.Append(CalcularDVNossoNumero(Opcoes.Carteira, titulo.NossoNumero.PadLeft(11, '0')));
             b.Append("0000000000"); //82-92
@@ -97,7 +97,7 @@ namespace CnabContasReceber.Bancos
             b.Append("04N");
             b.AppendData(titulo.Emissao);
             b.Append("0000");
-            b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero));
+            b.AppendDinheiro(13, Math.Round(titulo.CalculaMora(Opcoes) * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero));
             b.Append("000000000000000000000000000000000000000000000");
             b.AppendNumero(2, titulo.PessoaJuridica() ? "02" : "01");
             b.AppendNumero(14, titulo.CpfCnpj);
