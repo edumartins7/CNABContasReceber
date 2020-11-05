@@ -94,7 +94,7 @@ namespace CNABContasReceber.Testes.Itau
         {
             var cnab = new BancoItau400(Opcoes());
             var sb = new StringBuilder();
-            titulo.CalcularDescontos();
+            titulo.CalcularDescontos(titulo);
             cnab.Detalhe1(sb, titulo);
 
             return sb.ToString();
