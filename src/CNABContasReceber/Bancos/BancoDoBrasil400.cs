@@ -110,7 +110,10 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(2, 1); //148-149
             b.Append("N"); //150-150
             b.AppendData(titulo.Emissao); //151-156
-            b.Append("0100"); //157-158 & 159-160
+            if (titulo.ProtestavelAposVencimento)
+                b.Append("0600"); //157-158 & 159-160
+            else
+                b.Append("0100"); //157-158 & 159-160
             b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
 
             if(desconto1 != null)
@@ -135,7 +138,11 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(15, titulo.Cidade); //335-349
             b.AppendTexto(2, titulo.UF); //350-351
             b.AppendTexto(40, Opcoes.Msg1); //352-391
-            b.Append(new string(' ', 2)); //392-393
+            if (titulo.ProtestavelAposVencimento)
+                b.AppendNumero(2, titulo.DiasParaProtestar); //392-393
+            else
+                b.Append(new string(' ', 2)); //392-393
+
             b.Append(" "); //394-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);

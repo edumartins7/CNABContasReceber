@@ -18,6 +18,9 @@ namespace CnabContasReceber.Models
         public string Cep { get; set; }
         public string NossoNumero { get; set; }
 
+        public bool ProtestavelAposVencimento { get; set; }
+        public int DiasParaProtestar { get; set; }
+
         public string Bairro { get; set; }
         public string Cidade  { get; set; }
         public string UF { get; set; }
