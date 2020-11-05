@@ -79,15 +79,12 @@ namespace CNABContasReceber.Testes.Bradesco
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
-                Carteira = "57",
-                CobraMulta = true,
+                Carteira = "57",                
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "0989",
                 NumeroContaCorrente = "7177",
-                DigitoContaCorrente = '3',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 10m,
+                DigitoContaCorrente = '3',                
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
@@ -104,6 +101,9 @@ namespace CNABContasReceber.Testes.Bradesco
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
                 Valor = 10.99m
             };
         }
@@ -121,6 +121,9 @@ namespace CNABContasReceber.Testes.Bradesco
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
                 Valor = 10m
             };
         }
@@ -137,6 +140,9 @@ namespace CNABContasReceber.Testes.Bradesco
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
                 Valor = 1938201390.99000m
             };
         }
@@ -154,6 +160,9 @@ namespace CNABContasReceber.Testes.Bradesco
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
                 Valor = 0.9900000m
             };
         }

@@ -90,14 +90,11 @@ namespace CNABContasReceber.Testes.Bradesco
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
                 Carteira = "57",
-                CobraMulta = false,
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "0989",
                 NumeroContaCorrente = "7177",
                 DigitoContaCorrente = '3',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 2m,
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
@@ -115,6 +112,9 @@ namespace CNABContasReceber.Testes.Bradesco
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10.99m,
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 RateioCredito = new List<RateioCredito>()
                 {
                     new RateioCredito()
@@ -143,6 +143,9 @@ namespace CNABContasReceber.Testes.Bradesco
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10.99m,
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 RateioCredito = new List<RateioCredito>()
                 {
                     new RateioCredito()

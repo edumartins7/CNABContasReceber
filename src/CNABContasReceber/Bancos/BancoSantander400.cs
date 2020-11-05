@@ -93,8 +93,8 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(1, CalcularDvNossoNumero(titulo.NossoNumero)); //70-70
             b.AppendData(titulo.Vencimento); //71-76
             b.Append(' '); // 77-77
-            b.Append(Opcoes.CobraMulta ? "4" : "0"); //78-78
-            b.AppendNumero(4, Math.Round(Opcoes.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //79-82
+            b.Append(titulo.CobraMulta ? "4" : "0"); //78-78
+            b.AppendNumero(4, Math.Round(titulo.PercentualMulta, 2).ToString("#.00", CultureInfo.InvariantCulture)); //79-82
             b.Append("00"); //83-84
             b.Append(new string('0', 13));   //85-97 ????
             b.Append(new string(' ', 4)); //98-101
@@ -111,7 +111,7 @@ namespace CnabContasReceber.Bancos
             b.AppendData(titulo.Emissao); //151-156
             b.Append("00");//157-158
             b.Append("00"); //159-160
-            b.AppendDinheiro(13, Math.Round(Opcoes.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); //161-173
+            b.AppendDinheiro(13, Math.Round(titulo.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); //161-173
             b.Append(new string('0', 6)); //174-179
             b.Append(new string('0', 13)); //180-192
             b.Append(new string('0', 13)); //193-205

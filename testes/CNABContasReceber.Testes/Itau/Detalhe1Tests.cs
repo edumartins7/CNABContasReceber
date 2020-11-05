@@ -109,15 +109,12 @@ namespace CNABContasReceber.Testes.Itau
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
-                Carteira = "57",
-                CobraMulta = false,
+                Carteira = "57",                
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "8380",
                 NumeroContaCorrente = "1558",
-                DigitoContaCorrente = '8',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 2m,
+                DigitoContaCorrente = '8',                
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
@@ -135,6 +132,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10.99m,
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 Desconto1 = new DescontosTitulo { DiasDesconto = 0, ValorDesconto = 2m },
                 Desconto2 = new DescontosTitulo { DiasDesconto = 8, ValorDesconto = 10m },
                 Desconto3 = new DescontosTitulo { DiasDesconto = 6, ValorDesconto = 5m }
@@ -155,6 +155,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10m,
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 Desconto1 = new DescontosTitulo { DiasDesconto = 0, ValorDesconto = 2m },
                 Desconto2 = new DescontosTitulo { DiasDesconto = 8, ValorDesconto = 10m },
                 Desconto3 = new DescontosTitulo { DiasDesconto = 6, ValorDesconto = 5m }
@@ -174,6 +177,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 1938201390.99000m,
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 Desconto1 = new DescontosTitulo { DiasDesconto = 0, ValorDesconto = 2m },
                 Desconto2 = new DescontosTitulo { DiasDesconto = 8, ValorDesconto = 10m },
                 Desconto3 = new DescontosTitulo { DiasDesconto = 6, ValorDesconto = 5m }
@@ -192,6 +198,9 @@ namespace CNABContasReceber.Testes.Itau
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 Valor = 0.9900000m
             };
         }

@@ -72,15 +72,12 @@ namespace CNABContasReceber.Testes.Itau
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
-                Carteira = "57",
-                CobraMulta = false,
+                Carteira = "57",                
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "8380",
                 NumeroContaCorrente = "1558",
-                DigitoContaCorrente = '8',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 2m,
+                DigitoContaCorrente = '8',                
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
@@ -98,6 +95,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10.99m,
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 RateioCredito = new List<RateioCredito>()
                 {
                     new RateioCredito()
@@ -126,6 +126,9 @@ namespace CNABContasReceber.Testes.Itau
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
                 Valor = 10.99m,
+                CobraMulta = false,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 2m,
                 RateioCredito = new List<RateioCredito>()
                 {
                     new RateioCredito()

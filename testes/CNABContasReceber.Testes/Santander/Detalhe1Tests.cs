@@ -90,15 +90,12 @@ namespace CNABContasReceber.Testes.Santander
                 NumeroSequencialRemessaCnab = 1,
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
-                Carteira = "1",
-                CobraMulta = true,
+                Carteira = "1",                
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "0989",
                 NumeroContaCorrente = "7177",
-                DigitoContaCorrente = '3',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 10m,
+                DigitoContaCorrente = '3',                
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
@@ -115,7 +112,10 @@ namespace CNABContasReceber.Testes.Santander
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 1062.33m
+                Valor = 1062.33m,
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
             };
         }
 
@@ -132,7 +132,10 @@ namespace CNABContasReceber.Testes.Santander
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 10m
+                Valor = 10m,
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
             };
         }
 
@@ -148,7 +151,10 @@ namespace CNABContasReceber.Testes.Santander
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 1938201390.99000m
+                Valor = 1938201390.99000m,
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
             };
         }
 
@@ -165,7 +171,10 @@ namespace CNABContasReceber.Testes.Santander
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
-                Valor = 0.9900000m
+                Valor = 0.9900000m,
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
             };
         }
 

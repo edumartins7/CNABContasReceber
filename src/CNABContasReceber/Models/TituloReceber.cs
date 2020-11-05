@@ -21,6 +21,11 @@ namespace CnabContasReceber.Models
         public bool ProtestavelAposVencimento { get; set; }
         public int DiasParaProtestar { get; set; }
 
+        public bool CobraMulta { get; set; }
+        public decimal PercentualMulta { get; set; }
+        public int DiasAdicionaisAposVencimento { get; set; }
+        public decimal PercentualMoraDiaAtraso { get; set; }
+
         public string Bairro { get; set; }
         public string Cidade  { get; set; }
         public string UF { get; set; }

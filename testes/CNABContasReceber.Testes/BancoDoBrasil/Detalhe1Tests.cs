@@ -110,16 +110,13 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 ContadorTitulos = 7,
                 BancoEnviaBoleto = false,
                 Carteira = "17",
-                NumeroConvenio = "2323213",
-                CobraMulta = true,
+                NumeroConvenio = "2323213",                
                 Msg1 = "zazaza",
                 Msg2 = "popopo",
                 NumeroAgencia = "0989",
                 NumeroContaCorrente = "7177",
                 DigitoContaCorrente = '3',
-                DigitoAgencia = '1',
-                PercentualMoraDiaAtraso = 2m,
-                PercentualMulta = 10m,
+                DigitoAgencia = '1',                
                 RazaoSocial = "EMPRESA TAL LTDA"
             };
         }
@@ -137,6 +134,9 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
                 Valor = 1062.33m
             };
         }
@@ -154,6 +154,9 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
                 Valor = 10m
             };
         }
@@ -170,6 +173,9 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 NomePagador = "LOJAS RENNER LTDA",
                 NossoNumero = "234645",
                 NumeroTitulo = "12345",
+                CobraMulta = true,
+                PercentualMoraDiaAtraso = 2m,
+                PercentualMulta = 10m,
                 Valor = 1938201390.99000m
             };
         }

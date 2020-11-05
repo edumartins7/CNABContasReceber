@@ -21,10 +21,7 @@ namespace CnabContasReceber.Models
         public bool BancoEnviaBoleto { get; set; }
         public string Carteira { get; set; }
         public string VariacaoCarteira { get; set; }
-        public bool CobraMulta { get; set; }
-        public decimal PercentualMulta { get; set; }
-        public int DiasAdicionaisAposVencimento { get; set; }
-        public decimal PercentualMoraDiaAtraso { get; set; }
+        
 
         
 
