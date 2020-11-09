@@ -3,6 +3,7 @@ using CnabContasReceber.Models;
 using System;
 using System.Text;
 using Xunit;
+using static CnabContasReceber.Models.TituloReceber;
 
 namespace CNABContasReceber.Testes.BancoDoBrasil
 {
@@ -54,12 +55,24 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
         }
 
         [Fact]
+        public void Escreveu_Desconto_Correto()
+        {
+            var linha = GerarLinhaDetalhe(Titulo1());
+            var dataDesconto = linha.Slice(174, 179);
+            var valorDesconto = linha.Slice(180, 192);
+
+
+            Assert.Equal("141220", dataDesconto);
+            Assert.Equal("0000000001000", valorDesconto);
+        }
+
+        [Fact]
         public void Escreveu_Vencimento_Correto()
         {
             var linha = GerarLinhaDetalhe(Titulo1());
             var valor = linha.Slice(121, 126);
 
-            Assert.Equal("150520", valor);
+            Assert.Equal("151220", valor);
         }
 
         [Fact]
@@ -129,7 +142,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 Cidade = "São Paulo",
                 CpfCnpj = "25840272833",
                 Emissao = new DateTime(2020, 1, 2),
-                Vencimento = new DateTime(2020, 5, 15),
+                Vencimento = new DateTime(2020, 12, 15),
                 EnderecoCompleto = "RUA ALBION 193",
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
@@ -137,7 +150,8 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 CobraMulta = true,
                 PercentualMoraDiaAtraso = 2m,
                 PercentualMulta = 10m,
-                Valor = 1062.33m
+                Valor = 1062.33m,
+                Desconto1 = new DescontosTitulo { DiasDesconto = 1, ValorDesconto = 10m }
             };
         }
 
