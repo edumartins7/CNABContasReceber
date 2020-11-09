@@ -71,7 +71,7 @@ namespace CnabContasReceber.Models
 
             public bool DataValida()
             {
-                return DataLimite.HasValue && DataLimite > DateTime.Today;
+                return DataLimite.HasValue && DataLimite >= DateTime.Today;
             }
 
         }
