@@ -174,7 +174,7 @@ namespace CnabContasReceber.Bancos
             return Math.Abs(resto - 11).ToString();
         }
 
-        public string NomearArquivo(DateTime? dt = null)
+        public string NomearArquivo(DateTime? dt = null, int arquivosHoje = 0)
         {
             throw new NotImplementedException();
         }
