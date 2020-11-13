@@ -17,8 +17,7 @@ namespace CNABContasReceber.Testes.Sicredi
         {
             var banco = new BancoSicred400(Opcoes());
 
-            Assert.Equal("76584805.CRM", banco.NomearArquivo(new DateTime(2020, 8, 5)));
-
+            Assert.Equal("76584805.RM3", banco.NomearArquivo(new DateTime(2020, 8, 5), 2));
             Assert.Equal("76584O05.CRM", banco.NomearArquivo(new DateTime(2020, 10, 5)));
             Assert.Equal("76584N05.CRM", banco.NomearArquivo(new DateTime(2020, 11, 5)));
             Assert.Equal("76584D11.CRM", banco.NomearArquivo(new DateTime(2020, 12, 11)));

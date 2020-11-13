@@ -189,7 +189,7 @@ namespace CnabContasReceber.Bancos
             return digito.ToString();
         }
 
-        public string NomearArquivo(DateTime? dt = null)
+        public string NomearArquivo(DateTime? dt = null, int arquivosHoje = 0)
         {
             if (dt == null)
                 dt = DateTime.Today;
@@ -203,7 +203,11 @@ namespace CnabContasReceber.Bancos
             else if (dt.Value.Month == 12)
                 digitoMes = 'D';
 
-            return $"{Opcoes.CodigoEmpresa}{digitoMes}{dt.Value:dd}.CRM";
+            string prefixo = $"{Opcoes.CodigoEmpresa}{digitoMes}{dt.Value:dd}";
+
+            string extensao = arquivosHoje == 0 ? ".CRM" : $".RM{arquivosHoje+1}";
+
+            return prefixo + extensao;
         }
 
     }

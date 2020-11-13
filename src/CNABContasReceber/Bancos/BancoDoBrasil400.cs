@@ -214,7 +214,7 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(6, _index); //395-400
         }
 
-        public string NomearArquivo(DateTime? dt = null)
+        public string NomearArquivo(DateTime? dt = null, int arquivosHoje = 0)
         {
             throw new NotImplementedException();
         }

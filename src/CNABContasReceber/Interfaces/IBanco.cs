@@ -11,8 +11,7 @@ namespace CnabContasReceber.Interfaces
         void Header(StringBuilder b);
         void Detalhe1(StringBuilder b, TituloReceber titulo);
         void Trailer(StringBuilder b);
-
-        string NomearArquivo(DateTime? dataGeracaoArquivo = null);
+        string NomearArquivo(DateTime? dataGeracaoArquivo = null, int arquivosHoje = 0);
         Opcoes Opcoes { get; set; }
     }
 }
