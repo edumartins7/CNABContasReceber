@@ -171,7 +171,7 @@ namespace CnabContasReceber.Bancos
             return false;
         }
 
-        public string NomearArquivo(DateTime? dt = null, int arquivosHoje = 0)
+        public string NomearArquivo(DateTime? dt = null)
         {
             throw new NotImplementedException();
         }
