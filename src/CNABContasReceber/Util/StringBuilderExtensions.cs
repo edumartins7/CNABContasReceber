@@ -89,6 +89,20 @@ namespace CnabContasReceber.Util
             return sb;
         }
 
-       
+        public static StringBuilder AppendDinheiroUmaCasa(this StringBuilder sb, int tamanho, decimal? valor)
+        {
+            if (valor == null)
+                valor = 0m;
+
+            var s = valor.Value.ToString("F1");
+
+            var txt = Regex.Replace(s, "[.,]", string.Empty).PadLeft(tamanho, '0');
+
+            sb.Append(txt);
+
+            return sb;
+        }
+
+
     }
 }
