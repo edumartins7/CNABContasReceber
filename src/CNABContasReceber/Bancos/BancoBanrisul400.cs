@@ -58,7 +58,7 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 7)); //88-94
             b.AppendData(DateTime.Now); //95-100
             b.Append(new string(' ', 9)); //101-109
-            b.AppendNumero(13, FazCodigoServico(Opcoes.Carteira)); //110-113            
+            b.AppendNumero(4, FazCodigoServico(Opcoes.Carteira)); //110-113            
             b.Append(' '); //114-114
             b.Append(FazTipoProcessamento(Opcoes.Carteira)); //115-115
             b.Append(' '); //116-116
@@ -81,7 +81,7 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(32, Opcoes.Msg1); //73-104
             b.Append(new string(' ', 3)); //105-107
             b.Append('1'); //108-108 COBRAÇA SIMPLES
-            b.Append("02"); //109-110 REMESSA
+            b.Append("01"); //109-110 REMESSA
             b.AppendNumero(10, titulo.NossoNumero); //111-120 SEU NUMERO
             b.AppendData(titulo.Vencimento); //121-126
             b.AppendDinheiro(13, titulo.Valor); //127-139
@@ -132,6 +132,29 @@ namespace CnabContasReceber.Bancos
             b.Append(Environment.NewLine);
         }
 
+        public void Detalhe2(StringBuilder b, TituloReceber titulo)
+        {
+            b.Append('1');//1-1
+            b.AppendNumero(2, "02"); //2-3
+            b.AppendNumero(14, Opcoes.CnpjBeneficiario); //4-17
+            b.AppendNumero(13, FazCodigoBeneficiario()); //18-30
+            b.Append(new string(' ', 7)); //31-37
+            b.AppendTexto(25, titulo.NossoNumero); //38-62
+            b.AppendNumero(10, titulo.NossoNumero); //63-72 NOSSO NUMERO
+            b.Append(new string(' ', 25)); //73-107
+            b.Append('1'); //108-108 COBRAÇA SIMPLES
+            b.Append("98"); //109-110
+            b.Append('1');
+            b.AppendTexto(90, Opcoes.Msg1);
+            b.Append(' ');
+            b.Append(new string(' ', 90));
+            b.Append(' ');
+            b.Append(new string(' ', 90));
+            b.Append(new string(' ', 11));
+            b.AppendNumero(6, _index++); //395-400
+            b.Append(Environment.NewLine);
+        }
+
         public void Trailer(StringBuilder b)
         {
             b.Append("9"); //1-1
@@ -146,7 +169,7 @@ namespace CnabContasReceber.Bancos
         {
             var codigoBeneficiario = new StringBuilder();
             codigoBeneficiario.AppendNumero(4, Opcoes.NumeroAgencia);
-            codigoBeneficiario.AppendTexto(9, Opcoes.CodigoBanco);
+            codigoBeneficiario.AppendTexto(9, Opcoes.NumeroContaCorrente);
             return codigoBeneficiario.ToString();
         }
         
