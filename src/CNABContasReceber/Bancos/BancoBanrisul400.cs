@@ -77,7 +77,7 @@ namespace CnabContasReceber.Bancos
             b.AppendNumero(13, FazCodigoBeneficiario()); //18-30
             b.Append(new string(' ', 7)); //31-37
             b.AppendTexto(25, titulo.NossoNumero); //38-62
-            b.AppendNumero(10, titulo.NossoNumero); //63-72 NOSSO NUMERO
+            b.AppendNumero(10, 0); //63-72 NOSSO NUMERO
             b.AppendTexto(32, Opcoes.Msg1); //73-104
             b.Append(new string(' ', 3)); //105-107
             b.Append('1'); //108-108 COBRAÇA SIMPLES
@@ -126,7 +126,10 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(15, titulo.Cidade); //335-349
             b.AppendTexto(2, titulo.UF); //350-351
             b.Append(new string(' ', 18)); //352-369
-            b.AppendNumero(2, titulo.DiasParaProtestar); //370-371
+            if(titulo.CobraMulta || titulo.ProtestavelAposVencimento)
+                b.AppendNumero(2, titulo.DiasParaProtestar); //370-371
+            else
+                b.Append("00"); //370-371
             b.Append(new string(' ', 23)); //372-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
