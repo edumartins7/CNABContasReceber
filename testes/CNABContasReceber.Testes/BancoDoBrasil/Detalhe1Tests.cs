@@ -62,7 +62,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var valorDesconto = linha.Slice(180, 192);
 
 
-            Assert.Equal("141220", dataDesconto);
+            Assert.Equal("141221", dataDesconto);
             Assert.Equal("0000000001000", valorDesconto);
         }
 
@@ -72,7 +72,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
             var linha = GerarLinhaDetalhe(Titulo1());
             var valor = linha.Slice(121, 126);
 
-            Assert.Equal("151220", valor);
+            Assert.Equal("151221", valor);
         }
 
         [Fact]
@@ -142,7 +142,7 @@ namespace CNABContasReceber.Testes.BancoDoBrasil
                 Cidade = "São Paulo",
                 CpfCnpj = "25840272833",
                 Emissao = new DateTime(2020, 1, 2),
-                Vencimento = new DateTime(2020, 12, 15),
+                Vencimento = new DateTime(2021, 12, 15),
                 EnderecoCompleto = "RUA ALBION 193",
                 NomePagador = "CARLOS EDUARDO REIS ",
                 NossoNumero = "234645",
