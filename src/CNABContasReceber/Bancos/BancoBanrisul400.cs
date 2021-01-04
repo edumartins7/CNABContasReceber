@@ -172,7 +172,7 @@ namespace CnabContasReceber.Bancos
         {
             var codigoBeneficiario = new StringBuilder();
             codigoBeneficiario.AppendNumero(4, Opcoes.NumeroAgencia);
-            codigoBeneficiario.AppendTexto(9, Opcoes.NumeroContaCorrente);
+            codigoBeneficiario.AppendTexto(9, Opcoes.NumeroConvenio);
             return codigoBeneficiario.ToString();
         }
         
