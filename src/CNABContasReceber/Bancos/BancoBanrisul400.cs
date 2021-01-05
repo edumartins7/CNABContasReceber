@@ -76,13 +76,13 @@ namespace CnabContasReceber.Bancos
             b.Append(new string(' ', 16)); //2-17
             b.AppendNumero(13, FazCodigoBeneficiario()); //18-30
             b.Append(new string(' ', 7)); //31-37
-            b.AppendTexto(25, titulo.NossoNumero); //38-62
-            b.AppendNumero(10, 0); //63-72 NOSSO NUMERO
+            b.Append(new string(' ', 25)); //38-62
+            b.AppendNumero(10, titulo.NossoNumero); //63-72 NOSSO NUMERO
             b.AppendTexto(32, Opcoes.Msg1); //73-104
             b.Append(new string(' ', 3)); //105-107
             b.Append('1'); //108-108 COBRAÇA SIMPLES
             b.Append("01"); //109-110 REMESSA
-            b.AppendNumero(10, titulo.NossoNumero); //111-120 SEU NUMERO
+            b.AppendTexto(10, titulo.NossoNumero); //111-120 SEU NUMERO
             b.AppendData(titulo.Vencimento); //121-126
             b.AppendDinheiro(13, titulo.Valor); //127-139
             b.Append("041"); //140-142
