@@ -80,7 +80,14 @@ namespace CNABContasReceber.Testes.Banrisul
 
             Assert.Equal("0000000000200", valor1);
         }
-        
+        [Fact]
+        public void Escreveu_NossoNumero_Correto()
+        {
+            var linha = GerarLinhaDetalhe(Titulo2());
+            var valor1 = linha.Slice(63, 72);
+
+            Assert.Equal("0000927422", valor1);
+        }
 
         public static string GerarLinhaDetalhe(TituloReceber titulo)
         {
@@ -144,7 +151,7 @@ namespace CNABContasReceber.Testes.Banrisul
                 Vencimento = new DateTime(2021, 10, 10),
                 EnderecoCompleto = "RUA ALBION 193",
                 NomePagador = "LOJAS RENNER LTDA",
-                NossoNumero = "234645",
+                NossoNumero = "9274",
                 NumeroTitulo = "12345",
                 Valor = 10m,
                 CobraMulta = false,
