@@ -99,7 +99,7 @@ namespace CnabContasReceber.Bancos
                 b.Append("09"); //Protestavel após N dias
             else
                 b.Append("23"); //Não Protestar
-            b.Append("00"); //159-160
+            b.Append("15"); //159-160
             b.Append('0'); //161-161
             b.AppendDinheiro(12, Math.Round(titulo.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 162-173
 
@@ -121,7 +121,7 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(40, titulo.EnderecoCompleto); //275-314
             b.Append(new string(' ', 7)); //315-321
             b.AppendDinheiroUmaCasa(3, titulo.PercentualMulta); //322-324
-            b.Append("00"); //325-326
+            b.Append("01"); //325-326
             b.AppendNumero(8, titulo.Cep); //327-334
             b.AppendTexto(15, titulo.Cidade); //335-349
             b.AppendTexto(2, titulo.UF); //350-351
