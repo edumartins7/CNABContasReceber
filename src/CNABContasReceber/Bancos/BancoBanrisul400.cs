@@ -126,10 +126,7 @@ namespace CnabContasReceber.Bancos
             b.AppendTexto(15, titulo.Cidade); //335-349
             b.AppendTexto(2, titulo.UF); //350-351
             b.Append(new string(' ', 18)); //352-369
-            if(titulo.CobraMulta || titulo.ProtestavelAposVencimento)
-                b.AppendNumero(2, titulo.DiasParaProtestar); //370-371
-            else
-                b.Append("00"); //370-371
+            b.AppendNumero(2, titulo.DiasParaProtestar); //370-371
             b.Append(new string(' ', 23)); //372-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
