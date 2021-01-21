@@ -106,7 +106,7 @@ namespace CnabContasReceber.Bancos
             b.Append("06"); //148-149 Especie de Titulo - Contrato
             b.Append("N"); //150-150 Aceite/Não Aceite
             b.AppendData(titulo.Emissao); //151-156
-            b.Append("39"); //157-158 
+            b.Append("91"); //157-158 
             b.Append("00"); //159-160 
             b.AppendDinheiro(13, Math.Round(titulo.PercentualMoraDiaAtraso * titulo.Valor / 100, 2, MidpointRounding.AwayFromZero)); // 161-173
 
@@ -146,16 +146,15 @@ namespace CnabContasReceber.Bancos
                 {
                     b.Append(new string('0', 19));
                 }
-
-                b.Append(new string(' ', 3)); //392-394 
-
             }
             else
             {
                 b.Append(new string(' ', 34)); //352-381 & 382-385
-                b.Append("00000000 "); //386-391 & 392-393 & 394-394
+                b.Append("000000"); //386-391                
             }
 
+            b.AppendNumero(2, titulo.DiasAdicionaisAposVencimento); //392-393 
+            b.Append(' '); //394-394
             b.AppendNumero(6, _index++); //395-400
             b.Append(Environment.NewLine);
         }
